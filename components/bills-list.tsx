@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import { Calendar, FileText, User, ExternalLink } from "lucide-react"
 
 interface Bill {
   id: string
@@ -109,25 +110,40 @@ export function BillsList({ type }: BillsListProps) {
   return (
     <div className="grid gap-6 pt-4">
       {bills.map((bill) => (
-        <Card key={bill.id}>
-          <CardHeader>
+        <Card key={bill.id} className="overflow-hidden transition-all hover:shadow-md">
+          <CardHeader className="bg-muted/50 border-b">
             <div className="flex items-start justify-between">
               <div>
-                <CardTitle>{bill.title}</CardTitle>
-                <CardDescription className="mt-1">
-                  {bill.number} • Sponsored by {bill.sponsor}
+                <CardTitle className="text-xl">{bill.title}</CardTitle>
+                <CardDescription className="mt-1 flex items-center">
+                  <FileText className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
+                  {bill.number}
                 </CardDescription>
               </div>
-              <Badge variant={type === "passed" ? "default" : "outline"}>{bill.status}</Badge>
+              <Badge variant={type === "passed" ? "default" : "outline"} className="ml-2">
+                {bill.status}
+              </Badge>
             </div>
           </CardHeader>
-          <CardContent>
-            <p>{bill.description}</p>
-            <p className="text-sm text-muted-foreground mt-2">Date: {bill.date}</p>
+          <CardContent className="pt-4">
+            <p className="mb-4">{bill.description}</p>
+            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+              <div className="flex items-center">
+                <Calendar className="h-3.5 w-3.5 mr-1" />
+                {bill.date}
+              </div>
+              <div className="flex items-center">
+                <User className="h-3.5 w-3.5 mr-1" />
+                Sponsored by {bill.sponsor}
+              </div>
+            </div>
           </CardContent>
-          <CardFooter>
-            <Button asChild>
-              <Link href={`/?bill=${bill.id}`}>Explain This Bill</Link>
+          <CardFooter className="border-t bg-muted/30 px-6 py-4">
+            <Button asChild className="w-full sm:w-auto">
+              <Link href={`/?bill=${bill.id}`} className="flex items-center justify-center">
+                <ExternalLink className="h-4 w-4 mr-2" />
+                Explain This Bill
+              </Link>
             </Button>
           </CardFooter>
         </Card>

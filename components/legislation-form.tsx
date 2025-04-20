@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Loader2 } from "lucide-react"
+import { Loader2, FileText, Sparkles } from "lucide-react"
 import { ExplanationResult } from "@/components/explanation-result"
 import { useEffect } from "react"
 import { billTexts } from "@/lib/bill-data"
@@ -72,14 +72,15 @@ export function LegislationForm() {
         <div className="space-y-2">
           <label
             htmlFor="legislation"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="flex items-center text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
+            <FileText className="h-4 w-4 mr-2 text-primary" />
             Enter Legislation Text
           </label>
           <Textarea
             id="legislation"
             placeholder="Paste the legislation text you want explained..."
-            className="min-h-[150px]"
+            className="min-h-[200px] resize-y"
             value={legislation}
             onChange={(e) => setLegislation(e.target.value)}
             disabled={isLoading}
@@ -93,7 +94,10 @@ export function LegislationForm() {
               Generating Explanation...
             </>
           ) : (
-            "Explain This Legislation"
+            <>
+              <Sparkles className="mr-2 h-4 w-4" />
+              Explain This Legislation
+            </>
           )}
         </Button>
       </form>
