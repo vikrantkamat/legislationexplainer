@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Loader2 } from "lucide-react"
 import { ExplanationResult } from "@/components/explanation-result"
 import { useEffect } from "react"
+import { billTexts } from "@/lib/bill-data"
 
 export function LegislationForm() {
   const [legislation, setLegislation] = useState("")
@@ -20,11 +21,13 @@ export function LegislationForm() {
   // Handle bill parameter from URL
   useEffect(() => {
     const billId = searchParams.get("bill")
-    if (billId) {
-      // In a real app, we would fetch the actual bill text from an API
-      // For this demo, we'll use placeholder text based on the bill ID
-      const billText = `This is placeholder text for bill ${billId}. In a real application, this would contain the actual text of the legislation that would be fetched from a government API or database. The text would include all sections, provisions, and legal language of the bill.`
-      setLegislation(billText)
+    if (billId && billTexts[billId]) {
+      setLegislation(billTexts[billId])
+    } else if (billId) {
+      // Fallback for bills not in our database
+      setLegislation(
+        `This bill (${billId}) is not currently in our database. Please check back later or enter the text manually.`,
+      )
     }
   }, [searchParams])
 
