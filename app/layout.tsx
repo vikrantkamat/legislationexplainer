@@ -4,6 +4,8 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Github, Instagram } from "lucide-react"
+import Link from "next/link"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,11 +27,31 @@ export default function RootLayout({
           <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
             <div className="flex-1">{children}</div>
-            <footer className="border-t py-6 md:py-0">
-              <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
+            <footer className="border-t py-6">
+              <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
                 <p className="text-sm text-muted-foreground">
                   &copy; {new Date().getFullYear()} Legislation Explainer. All rights reserved.
                 </p>
+                <div className="flex items-center space-x-4">
+                  <Link
+                    href="https://github.com/vikrantkamat"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    <Github className="h-5 w-5" />
+                    <span className="sr-only">GitHub</span>
+                  </Link>
+                  <Link
+                    href="https://www.instagram.com/vikrantkamat/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    <Instagram className="h-5 w-5" />
+                    <span className="sr-only">Instagram</span>
+                  </Link>
+                </div>
               </div>
             </footer>
           </div>
