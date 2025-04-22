@@ -11,7 +11,7 @@ export function SiteHeader() {
           <Link href="/" className="flex items-center space-x-2">
             <BookOpen className="h-6 w-6 text-primary" />
             <span className="inline-block font-bold text-xl bg-gradient-to-r from-primary to-blue-700 bg-clip-text text-transparent">
-              Enacted.ai
+              enacted.ai
             </span>
           </Link>
           <MainNav />

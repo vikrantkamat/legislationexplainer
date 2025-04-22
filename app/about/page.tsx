@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, Scale, Lightbulb, CheckCircle } from "lucide-react"
+import { BookOpen, Scale, Lightbulb, CheckCircle, AlertTriangle } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animation"
 
 export default function AboutPage() {
@@ -23,7 +23,7 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4 pt-6">
               <p>
-                Enacted.ai was created with a simple mission: to make complex legal language accessible to everyone. We
+                enacted.ai was created with a simple mission: to make complex legal language accessible to everyone. We
                 believe that understanding the laws that govern our society shouldn't require a law degree.
               </p>
               <p>
@@ -93,6 +93,31 @@ export default function AboutPage() {
               <p className="mt-4">
                 The entire process takes just seconds, providing you with instant clarity on even the most complex legal
                 documents.
+              </p>
+            </CardContent>
+          </Card>
+        </ScrollAnimation>
+
+        <ScrollAnimation>
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-muted/50 border-b">
+              <CardTitle className="flex items-center">
+                <AlertTriangle className="h-5 w-5 mr-2 text-amber-500" />
+                Disclaimer
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="p-4 border border-amber-200 bg-amber-50 dark:bg-amber-900/20 dark:border-amber-900/30 rounded-md">
+                <p className="font-medium text-amber-800 dark:text-amber-200">
+                  enacted.ai is intended for educational purposes only. The explanations provided by our platform should
+                  not be considered legal advice. For legal matters, please consult with a qualified attorney or legal
+                  professional.
+                </p>
+              </div>
+              <p className="mt-4">
+                Our AI-generated explanations aim to make legislation more accessible and understandable, but they are
+                not a substitute for professional legal counsel. The information provided is general in nature and may
+                not apply to your specific situation or jurisdiction.
               </p>
             </CardContent>
           </Card>

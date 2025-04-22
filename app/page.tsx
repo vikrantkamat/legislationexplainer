@@ -11,7 +11,7 @@ export default function Home() {
             <div className="inline-block p-2 bg-blue-100 rounded-full dark:bg-blue-900/30">
               <BookOpen className="h-8 w-8 text-primary" />
             </div>
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-gradient">Enacted.ai</h1>
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-gradient">enacted.ai</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Get clear, concise explanations of any legislation in seconds
             </p>

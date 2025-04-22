@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useRef } from "react"
 import { BillsList } from "@/components/bills-list"
 import { BillFilters, type FilterOptions } from "@/components/bill-filters"
-import { CheckCircle, Clock, Search, Filter, BookOpen } from "lucide-react"
+import { CheckCircle, Clock, Search, Filter } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Pagination } from "@/components/pagination"
 import { ScrollAnimation } from "@/components/scroll-animation"
@@ -16,6 +16,30 @@ import {
   SlidingTabsContent,
   SlidingTabsIndicator,
 } from "@/components/sliding-tabs"
+
+// Custom Gavel icon component
+function GavelIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="m14 13-7.5 7.5c-.83.83-2.17.83-3 0 0 0 0 0 0 0a2.12 2.12 0 0 1 0-3L11 10" />
+      <path d="m16 16 6-6" />
+      <path d="m8 8 6-6" />
+      <path d="m9 7 8 8" />
+      <path d="m21 11-8-8" />
+    </svg>
+  )
+}
 
 export default function RecentBillsPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -127,7 +151,7 @@ export default function RecentBillsPage() {
               <SlidingTabsTrigger value="passed" icon={<CheckCircle className="h-4 w-4" />}>
                 Passed
               </SlidingTabsTrigger>
-              <SlidingTabsTrigger value="enacted" icon={<BookOpen className="h-4 w-4" />}>
+              <SlidingTabsTrigger value="enacted" icon={<GavelIcon className="h-4 w-4" />}>
                 Enacted
               </SlidingTabsTrigger>
             </SlidingTabsList>

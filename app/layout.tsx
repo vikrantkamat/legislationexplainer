@@ -10,7 +10,7 @@ import Link from "next/link"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Enacted.ai",
+  title: "enacted.ai",
   description: "Get clear, concise explanations of any legislation in seconds",
   icons: {
     icon: "/favicon.ico",
@@ -34,7 +34,7 @@ export default function RootLayout({
             <footer className="border-t py-6">
               <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
                 <p className="text-sm text-muted-foreground">
-                  &copy; {new Date().getFullYear()} Enacted.ai. All rights reserved.
+                  &copy; {new Date().getFullYear()} enacted.ai. All rights reserved.
                 </p>
                 <div className="flex items-center space-x-4">
                   <Link
