@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Calendar, User, ExternalLink, Building, Tag } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import { generateBills } from "@/lib/bill-data"
+import type { FilterOptions } from "@/components/bill-filters"
 
 interface Bill {
   id: string
@@ -29,9 +30,10 @@ interface BillsListProps {
   searchTerm?: string
   currentPage: number
   onPageChange: (page: number) => void
+  filters: FilterOptions
 }
 
-export function BillsList({ type, searchTerm = "", currentPage, onPageChange }: BillsListProps) {
+export function BillsList({ type, searchTerm = "", currentPage, onPageChange, filters }: BillsListProps) {
   const [allBills, setAllBills] = useState<Bill[]>([])
   const [filteredBills, setFilteredBills] = useState<Bill[]>([])
   const [displayedBills, setDisplayedBills] = useState<Bill[]>([])
@@ -44,14 +46,14 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange }: 
     setAllBills(bills)
   }, [type])
 
-  // Filter bills based on search term
+  // Filter bills based on search term and filters
   useEffect(() => {
-    if (!searchTerm.trim()) {
-      setFilteredBills(allBills)
-      setTotalPages(Math.ceil(allBills.length / ITEMS_PER_PAGE))
-    } else {
+    let filtered = [...allBills]
+
+    // Apply search filter
+    if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase()
-      const filtered = allBills.filter(
+      filtered = filtered.filter(
         (bill) =>
           bill.title.toLowerCase().includes(term) ||
           bill.number.toLowerCase().includes(term) ||
@@ -59,15 +61,31 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange }: 
           bill.policyArea?.toLowerCase().includes(term) ||
           bill.sponsor.toLowerCase().includes(term),
       )
-      setFilteredBills(filtered)
-      setTotalPages(Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE)))
-
-      // If current page is now out of bounds, reset to page 1
-      if (currentPage > Math.ceil(filtered.length / ITEMS_PER_PAGE)) {
-        onPageChange(1)
-      }
     }
-  }, [searchTerm, allBills, currentPage, onPageChange])
+
+    // Apply policy area filters
+    if (filters.policyAreas.length > 0) {
+      filtered = filtered.filter((bill) => bill.policyArea && filters.policyAreas.includes(bill.policyArea))
+    }
+
+    // Apply party filters
+    if (filters.parties.length > 0) {
+      filtered = filtered.filter((bill) => filters.parties.includes(bill.sponsorParty))
+    }
+
+    // Apply chamber filters
+    if (filters.chambers.length > 0) {
+      filtered = filtered.filter((bill) => filters.chambers.includes(bill.chamber))
+    }
+
+    setFilteredBills(filtered)
+    setTotalPages(Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE)))
+
+    // If current page is now out of bounds, reset to page 1
+    if (currentPage > Math.ceil(filtered.length / ITEMS_PER_PAGE)) {
+      onPageChange(1)
+    }
+  }, [searchTerm, allBills, filters, currentPage, onPageChange])
 
   // Update displayed bills based on current page
   useEffect(() => {
@@ -87,25 +105,9 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange }: 
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
+                        <Badge variant={bill.chamber === "House" ? "blue" : "red"}>{bill.chamber}</Badge>
                         <Badge
-                          variant="outline"
-                          className={`${
-                            bill.chamber === "House"
-                              ? "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:border-blue-800"
-                              : "bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-200 dark:border-red-800"
-                          }`}
-                        >
-                          {bill.chamber}
-                        </Badge>
-                        <Badge
-                          variant="outline"
-                          className={`${
-                            bill.sponsorParty === "D"
-                              ? "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:border-blue-800"
-                              : bill.sponsorParty === "R"
-                                ? "bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-200 dark:border-red-800"
-                                : "bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900 dark:text-purple-200 dark:border-purple-800"
-                          }`}
+                          variant={bill.sponsorParty === "D" ? "blue" : bill.sponsorParty === "R" ? "red" : "purple"}
                         >
                           {bill.sponsorParty}
                         </Badge>
@@ -159,6 +161,15 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange }: 
         ) : (
           <div className="text-center py-8">
             <p className="text-muted-foreground">No bills found matching your search criteria.</p>
+            <Button
+              variant="outline"
+              className="mt-4"
+              onClick={() => {
+                onPageChange(1)
+              }}
+            >
+              View All Bills
+            </Button>
           </div>
         )}
       </div>

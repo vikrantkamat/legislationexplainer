@@ -23,8 +23,8 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4 pt-6">
               <p>
-                Legislation Explainer was created with a simple mission: to make complex legal language accessible to
-                everyone. We believe that understanding the laws that govern our society shouldn't require a law degree.
+                Enacted.ai was created with a simple mission: to make complex legal language accessible to everyone. We
+                believe that understanding the laws that govern our society shouldn't require a law degree.
               </p>
               <p>
                 Our AI-powered platform translates dense legislative text into clear, concise explanations that anyone

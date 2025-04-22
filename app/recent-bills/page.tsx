@@ -2,14 +2,20 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { BillsList } from "@/components/bills-list"
-import { BillFilters } from "@/components/bill-filters"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CheckCircle, Clock, Search, Filter } from "lucide-react"
+import { BillFilters, type FilterOptions } from "@/components/bill-filters"
+import { CheckCircle, Clock, Search, Filter, BookOpen } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Pagination } from "@/components/pagination"
 import { ScrollAnimation } from "@/components/scroll-animation"
+import {
+  SlidingTabs,
+  SlidingTabsList,
+  SlidingTabsTrigger,
+  SlidingTabsContent,
+  SlidingTabsIndicator,
+} from "@/components/sliding-tabs"
 
 export default function RecentBillsPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -26,6 +32,13 @@ export default function RecentBillsPage() {
     passed: 5,
     enacted: 3,
   })
+  const [filters, setFilters] = useState<FilterOptions>({
+    policyAreas: [],
+    parties: [],
+    chambers: [],
+  })
+
+  const tabsListRef = useRef<HTMLDivElement>(null)
 
   const handlePageChange = (tab: string, page: number) => {
     setCurrentPages((prev) => ({
@@ -47,6 +60,32 @@ export default function RecentBillsPage() {
 
   const handleTabChange = (value: string) => {
     setActiveTab(value)
+  }
+
+  const handleFilterChange = (newFilters: FilterOptions) => {
+    setFilters(newFilters)
+    // Reset to page 1 when filters change
+    setCurrentPages({
+      introduced: 1,
+      active: 1,
+      passed: 1,
+      enacted: 1,
+    })
+  }
+
+  const resetFilters = () => {
+    setFilters({
+      policyAreas: [],
+      parties: [],
+      chambers: [],
+    })
+    // Reset to page 1 when filters are reset
+    setCurrentPages({
+      introduced: 1,
+      active: 1,
+      passed: 1,
+      enacted: 1,
+    })
   }
 
   return (
@@ -71,100 +110,84 @@ export default function RecentBillsPage() {
                 onChange={handleSearch}
               />
             </div>
-            <BillFilters />
+            <BillFilters filters={filters} onFilterChange={handleFilterChange} onResetFilters={resetFilters} />
           </div>
         </ScrollAnimation>
 
         <ScrollAnimation>
-          <Tabs defaultValue="introduced" className="w-full" onValueChange={handleTabChange}>
-            <TabsList className="grid w-full grid-cols-4 mb-4">
-              <TabsTrigger value="introduced" className="flex items-center justify-center">
-                <Clock className="h-4 w-4 mr-2" />
+          <SlidingTabs defaultValue="introduced" className="w-full" onValueChange={handleTabChange}>
+            <SlidingTabsList ref={tabsListRef} className="grid w-full grid-cols-4 mb-4">
+              <SlidingTabsIndicator containerRef={tabsListRef} />
+              <SlidingTabsTrigger value="introduced" icon={<Clock className="h-4 w-4" />}>
                 Introduced
-              </TabsTrigger>
-              <TabsTrigger value="active" className="flex items-center justify-center">
-                <Filter className="h-4 w-4 mr-2" />
+              </SlidingTabsTrigger>
+              <SlidingTabsTrigger value="active" icon={<Filter className="h-4 w-4" />}>
                 Active
-              </TabsTrigger>
-              <TabsTrigger value="passed" className="flex items-center justify-center">
-                <CheckCircle className="h-4 w-4 mr-2" />
+              </SlidingTabsTrigger>
+              <SlidingTabsTrigger value="passed" icon={<CheckCircle className="h-4 w-4" />}>
                 Passed
-              </TabsTrigger>
-              <TabsTrigger value="enacted" className="flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-4 w-4 mr-2"
-                >
-                  <path d="M12 22a8 8 0 0 0 0-16"></path>
-                  <path d="M12 8V2l-4 4"></path>
-                  <path d="M12 2l4 4"></path>
-                  <path d="M18 18a4 4 0 0 0-6-6"></path>
-                  <path d="M16 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
-                </svg>
+              </SlidingTabsTrigger>
+              <SlidingTabsTrigger value="enacted" icon={<BookOpen className="h-4 w-4" />}>
                 Enacted
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="introduced">
+              </SlidingTabsTrigger>
+            </SlidingTabsList>
+            <SlidingTabsContent value="introduced">
               <BillsList
                 type="introduced"
                 searchTerm={searchTerm}
                 currentPage={currentPages.introduced}
                 onPageChange={(page) => handlePageChange("introduced", page)}
+                filters={filters}
               />
               <Pagination
                 totalPages={totalPages.introduced}
                 currentPage={currentPages.introduced}
                 onPageChange={(page) => handlePageChange("introduced", page)}
               />
-            </TabsContent>
-            <TabsContent value="active">
+            </SlidingTabsContent>
+            <SlidingTabsContent value="active">
               <BillsList
                 type="active"
                 searchTerm={searchTerm}
                 currentPage={currentPages.active}
                 onPageChange={(page) => handlePageChange("active", page)}
+                filters={filters}
               />
               <Pagination
                 totalPages={totalPages.active}
                 currentPage={currentPages.active}
                 onPageChange={(page) => handlePageChange("active", page)}
               />
-            </TabsContent>
-            <TabsContent value="passed">
+            </SlidingTabsContent>
+            <SlidingTabsContent value="passed">
               <BillsList
                 type="passed"
                 searchTerm={searchTerm}
                 currentPage={currentPages.passed}
                 onPageChange={(page) => handlePageChange("passed", page)}
+                filters={filters}
               />
               <Pagination
                 totalPages={totalPages.passed}
                 currentPage={currentPages.passed}
                 onPageChange={(page) => handlePageChange("passed", page)}
               />
-            </TabsContent>
-            <TabsContent value="enacted">
+            </SlidingTabsContent>
+            <SlidingTabsContent value="enacted">
               <BillsList
                 type="enacted"
                 searchTerm={searchTerm}
                 currentPage={currentPages.enacted}
                 onPageChange={(page) => handlePageChange("enacted", page)}
+                filters={filters}
               />
               <Pagination
                 totalPages={totalPages.enacted}
                 currentPage={currentPages.enacted}
                 onPageChange={(page) => handlePageChange("enacted", page)}
               />
-            </TabsContent>
-          </Tabs>
+            </SlidingTabsContent>
+          </SlidingTabs>
         </ScrollAnimation>
       </div>
     </main>
