@@ -1,3 +1,4 @@
+// Original bill data
 export const billTexts: Record<string, string> = {
   hr9512: `
 Quantum Computing Research and Development Act of 2025
@@ -413,4 +414,411 @@ Sec. 303. Tribal Infrastructure Technical Assistance.
 Sec. 304. Infrastructure Implementation Best Practices.
 Sec. 305. Authorization of appropriations.
 `,
+}
+
+// Data for bill generation
+const policyAreas = [
+  "Agriculture and Food",
+  "Armed Forces and National Security",
+  "Civil Rights and Liberties",
+  "Commerce",
+  "Communications",
+  "Congress",
+  "Crime and Law Enforcement",
+  "Economics and Public Finance",
+  "Education",
+  "Emergency Management",
+  "Energy",
+  "Environmental Protection",
+  "Families",
+  "Finance and Financial Sector",
+  "Foreign Trade and International Finance",
+  "Government Operations and Politics",
+  "Health",
+  "Housing and Community Development",
+  "Immigration",
+  "International Affairs",
+  "Labor and Employment",
+  "Native Americans",
+  "Public Lands and Natural Resources",
+  "Science, Technology, Communications",
+  "Social Welfare",
+  "Sports and Recreation",
+  "Taxation",
+  "Transportation and Public Works",
+  "Water Resources Development",
+]
+
+const houseCommittees = [
+  "House Agriculture",
+  "House Appropriations",
+  "House Armed Services",
+  "House Budget",
+  "House Education and the Workforce",
+  "House Energy and Commerce",
+  "House Ethics",
+  "House Financial Services",
+  "House Foreign Affairs",
+  "House Homeland Security",
+  "House Intelligence",
+  "House Judiciary",
+  "House Natural Resources",
+  "House Oversight and Accountability",
+  "House Rules",
+  "House Science, Space, and Technology",
+  "House Small Business",
+  "House Transportation and Infrastructure",
+  "House Veterans' Affairs",
+  "House Ways and Means",
+]
+
+const senateCommittees = [
+  "Senate Agriculture, Nutrition, and Forestry",
+  "Senate Appropriations",
+  "Senate Armed Services",
+  "Senate Banking, Housing, and Urban Affairs",
+  "Senate Budget",
+  "Senate Commerce, Science, and Transportation",
+  "Senate Energy and Natural Resources",
+  "Senate Environment and Public Works",
+  "Senate Finance",
+  "Senate Foreign Relations",
+  "Senate Health, Education, Labor, and Pensions",
+  "Senate Homeland Security and Governmental Affairs",
+  "Senate Indian Affairs",
+  "Senate Intelligence",
+  "Senate Judiciary",
+  "Senate Rules and Administration",
+  "Senate Small Business and Entrepreneurship",
+  "Senate Veterans' Affairs",
+]
+
+const houseSponsors = [
+  "Rep. Johnson, Eddie Bernice (D-TX-30)",
+  "Rep. Ocasio-Cortez, Alexandria (D-NY-14)",
+  "Rep. Williams, Roger (R-TX-25)",
+  "Rep. Castor, Kathy (D-FL-14)",
+  "Rep. Pallone, Frank (D-NJ-6)",
+  "Rep. Takano, Mark (D-CA-41)",
+  "Rep. McCaul, Michael (R-TX-10)",
+  "Rep. Rogers, Mike (R-AL-3)",
+  "Rep. DeFazio, Peter (D-OR-4)",
+  "Rep. Pelosi, Nancy (D-CA-11)",
+  "Rep. McCarthy, Kevin (R-CA-20)",
+  "Rep. Scalise, Steve (R-LA-1)",
+  "Rep. Clyburn, James E. (D-SC-6)",
+  "Rep. Jeffries, Hakeem (D-NY-8)",
+  "Rep. Cheney, Liz (R-WY-At Large)",
+  "Rep. Jordan, Jim (R-OH-4)",
+  "Rep. Schiff, Adam (D-CA-28)",
+  "Rep. Nadler, Jerrold (D-NY-10)",
+  "Rep. Jayapal, Pramila (D-WA-7)",
+  "Rep. Greene, Marjorie Taylor (R-GA-14)",
+  "Rep. Gaetz, Matt (R-FL-1)",
+  "Rep. Omar, Ilhan (D-MN-5)",
+  "Rep. Pressley, Ayanna (D-MA-7)",
+  "Rep. Tlaib, Rashida (D-MI-12)",
+  "Rep. Crenshaw, Dan (R-TX-2)",
+]
+
+const senateSponsors = [
+  "Sen. Warnock, Raphael (D-GA)",
+  "Sen. Warner, Mark (D-VA)",
+  "Sen. Wyden, Ron (D-OR)",
+  "Sen. Cantwell, Maria (D-WA)",
+  "Sen. Murray, Patty (D-WA)",
+  "Sen. Schumer, Charles (D-NY)",
+  "Sen. McConnell, Mitch (R-KY)",
+  "Sen. Durbin, Richard (D-IL)",
+  "Sen. Thune, John (R-SD)",
+  "Sen. Warren, Elizabeth (D-MA)",
+  "Sen. Sanders, Bernie (I-VT)",
+  "Sen. Cruz, Ted (R-TX)",
+  "Sen. Rubio, Marco (R-FL)",
+  "Sen. Klobuchar, Amy (D-MN)",
+  "Sen. Booker, Cory (D-NJ)",
+  "Sen. Hawley, Josh (R-MO)",
+  "Sen. Cotton, Tom (R-AR)",
+  "Sen. Gillibrand, Kirsten (D-NY)",
+  "Sen. Manchin, Joe (D-WV)",
+  "Sen. Romney, Mitt (R-UT)",
+]
+
+// Function to generate a random date after November 2024
+function generateRandomDate() {
+  // Start from December 1, 2024
+  const start = new Date(2024, 11, 1)
+  // End at December 31, 2025
+  const end = new Date(2025, 11, 31)
+
+  const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+
+  return randomDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+}
+
+// Function to generate a random bill number
+function generateBillNumber(chamber: "House" | "Senate", index: number) {
+  const prefix = chamber === "House" ? "H.R." : "S."
+  const baseNumber = chamber === "House" ? 9400 : 5000
+  return `${prefix} ${baseNumber + index}`
+}
+
+// Function to generate a random bill ID
+function generateBillId(chamber: "House" | "Senate", index: number) {
+  const prefix = chamber === "House" ? "hr" : "s"
+  const baseNumber = chamber === "House" ? 9400 : 5000
+  return `${prefix}${baseNumber + index}`
+}
+
+// Function to generate random committees
+function generateCommittees(chamber: "House" | "Senate", count = 1) {
+  const committees = chamber === "House" ? houseCommittees : senateCommittees
+  const result = []
+
+  for (let i = 0; i < count && i < committees.length; i++) {
+    const randomIndex = Math.floor(Math.random() * committees.length)
+    if (!result.includes(committees[randomIndex])) {
+      result.push(committees[randomIndex])
+    } else {
+      i-- // Try again if we got a duplicate
+    }
+  }
+
+  return result
+}
+
+// Function to generate a random bill title
+function generateBillTitle(policyArea: string) {
+  const titles = {
+    "Agriculture and Food": [
+      "Agricultural Innovation and Research Act",
+      "Sustainable Farming Practices Act",
+      "Food Security Enhancement Act",
+      "Rural Agricultural Development Act",
+      "Farm Workforce Modernization Act",
+    ],
+    "Armed Forces and National Security": [
+      "Military Readiness Enhancement Act",
+      "Veterans Healthcare Improvement Act",
+      "Defense Infrastructure Modernization Act",
+      "National Security Technology Investment Act",
+      "Military Family Support Act",
+    ],
+    "Civil Rights and Liberties": [
+      "Voting Rights Protection Act",
+      "Equal Justice Under Law Act",
+      "Civil Liberties Enhancement Act",
+      "Anti-Discrimination Enforcement Act",
+      "Privacy Protection and Data Security Act",
+    ],
+    // Add more policy areas as needed
+    Health: [
+      "Healthcare Access Improvement Act",
+      "Medical Research Advancement Act",
+      "Prescription Drug Affordability Act",
+      "Mental Health Services Enhancement Act",
+      "Public Health Emergency Preparedness Act",
+    ],
+    Energy: [
+      "Clean Energy Transition Act",
+      "Renewable Energy Investment Act",
+      "Energy Infrastructure Modernization Act",
+      "Energy Efficiency Standards Act",
+      "Nuclear Energy Innovation Act",
+    ],
+    Education: [
+      "Higher Education Affordability Act",
+      "Early Childhood Education Enhancement Act",
+      "Student Loan Relief Act",
+      "STEM Education Advancement Act",
+      "Teacher Support and Training Act",
+    ],
+    "Science, Technology, Communications": [
+      "Quantum Computing Research Act",
+      "Artificial Intelligence Ethics Act",
+      "Broadband Expansion Act",
+      "Digital Innovation and Competition Act",
+      "Space Exploration and Research Act",
+    ],
+  }
+
+  // Default titles if the policy area isn't in our map
+  const defaultTitles = [
+    "Comprehensive Reform Act",
+    "Modernization and Improvement Act",
+    "American Innovation Act",
+    "Future Development Act",
+    "Infrastructure Investment Act",
+  ]
+
+  const titleOptions = titles[policyArea as keyof typeof titles] || defaultTitles
+  const randomTitle = titleOptions[Math.floor(Math.random() * titleOptions.length)]
+
+  // Add year to make it unique
+  return `${randomTitle} of ${Math.random() > 0.5 ? 2024 : 2025}`
+}
+
+// Function to generate a random bill description
+function generateBillDescription(title: string, policyArea: string) {
+  const descriptions = {
+    "Agriculture and Food": [
+      "To improve agricultural research and innovation.",
+      "To promote sustainable farming practices and soil health.",
+      "To enhance food security and nutrition assistance programs.",
+      "To support rural agricultural development and family farms.",
+      "To modernize the agricultural workforce and improve labor conditions.",
+    ],
+    "Armed Forces and National Security": [
+      "To enhance military readiness and operational capabilities.",
+      "To improve healthcare services for veterans and military families.",
+      "To modernize defense infrastructure and facilities.",
+      "To invest in national security technologies and cybersecurity.",
+      "To provide support services for military families and veterans.",
+    ],
+    // Add more policy areas as needed
+    Health: [
+      "To improve access to affordable healthcare services.",
+      "To advance medical research and development of treatments.",
+      "To reduce prescription drug costs and increase transparency.",
+      "To enhance mental health services and support.",
+      "To strengthen public health emergency preparedness and response.",
+    ],
+    Energy: [
+      "To accelerate the transition to clean energy sources.",
+      "To increase investment in renewable energy technologies.",
+      "To modernize energy infrastructure and improve resilience.",
+      "To establish new energy efficiency standards and incentives.",
+      "To support innovation in nuclear energy and advanced technologies.",
+    ],
+  }
+
+  // Default descriptions if the policy area isn't in our map
+  const defaultDescriptions = [
+    "To implement comprehensive reforms and improvements.",
+    "To modernize systems and enhance operational efficiency.",
+    "To promote innovation and technological advancement.",
+    "To develop infrastructure and support future growth.",
+    "To establish new standards and regulatory frameworks.",
+  ]
+
+  const descriptionOptions = descriptions[policyArea as keyof typeof descriptions] || defaultDescriptions
+  return descriptionOptions[Math.floor(Math.random() * descriptionOptions.length)]
+}
+
+// Function to generate a random last action based on bill status
+function generateLastAction(status: string, chamber: "House" | "Senate") {
+  const actions = {
+    Introduced: [
+      `Referred to the ${chamber} Committee on ${chamber === "House" ? houseCommittees[Math.floor(Math.random() * houseCommittees.length)].replace("House ", "") : senateCommittees[Math.floor(Math.random() * senateCommittees.length)].replace("Senate ", "")}.`,
+      `Read ${chamber === "Senate" ? "twice and " : ""}referred to the Committee on ${chamber === "House" ? houseCommittees[Math.floor(Math.random() * houseCommittees.length)].replace("House ", "") : senateCommittees[Math.floor(Math.random() * senateCommittees.length)].replace("Senate ", "")}.`,
+      `Introduced in ${chamber}.`,
+    ],
+    "Committee Consideration": [
+      `Hearings held by the ${chamber} Committee on ${chamber === "House" ? houseCommittees[Math.floor(Math.random() * houseCommittees.length)].replace("House ", "") : senateCommittees[Math.floor(Math.random() * senateCommittees.length)].replace("Senate ", "")}.`,
+      `Markup completed by the ${chamber} Committee on ${chamber === "House" ? houseCommittees[Math.floor(Math.random() * houseCommittees.length)].replace("House ", "") : senateCommittees[Math.floor(Math.random() * senateCommittees.length)].replace("Senate ", "")}.`,
+      `Committee on ${chamber === "House" ? houseCommittees[Math.floor(Math.random() * houseCommittees.length)].replace("House ", "") : senateCommittees[Math.floor(Math.random() * senateCommittees.length)].replace("Senate ", "")}. Hearings held.`,
+      `Ordered to be reported by the ${chamber} Committee on ${chamber === "House" ? houseCommittees[Math.floor(Math.random() * houseCommittees.length)].replace("House ", "") : senateCommittees[Math.floor(Math.random() * senateCommittees.length)].replace("Senate ", "")}.`,
+    ],
+    "Passed House": [
+      "Received in the Senate and referred to the Committee on Finance.",
+      "Passed House by voice vote.",
+      "Passed House by Yea-Nay Vote: 256 - 178.",
+      "Passed House by recorded vote: 234 - 193, 8 Present.",
+    ],
+    "Passed Senate": [
+      "Received in the House and referred to the Committee on Energy and Commerce.",
+      "Passed Senate by voice vote.",
+      "Passed Senate by Yea-Nay Vote: 68 - 32.",
+      "Passed Senate with an amendment by 72 - 28.",
+    ],
+    "Passed House and Senate": [
+      "Resolving differences -- House actions.",
+      "Passed Senate with amendments by Yea-Nay Vote. 68 - 32.",
+      "Conference report agreed to in House by 245 - 187.",
+      "Presented to President.",
+    ],
+    Enacted: [
+      "Became Public Law No: 118-45.",
+      "Signed by President.",
+      "Became Public Law No: 118-44.",
+      "Became Public Law No: 118-43.",
+    ],
+  }
+
+  const actionOptions = actions[status as keyof typeof actions] || ["Status updated."]
+  return actionOptions[Math.floor(Math.random() * actionOptions.length)]
+}
+
+// Function to generate bills
+export function generateBills(type: "introduced" | "active" | "passed" | "enacted", count: number) {
+  const bills = []
+  const statuses = {
+    introduced: "Introduced",
+    active: "Committee Consideration",
+    passed: ["Passed House", "Passed Senate", "Passed House and Senate"],
+    enacted: "Enacted",
+  }
+
+  for (let i = 0; i < count; i++) {
+    const chamber = Math.random() > 0.5 ? "House" : "Senate"
+    const sponsorParty = Math.random() > 0.7 ? "R" : Math.random() > 0.9 ? "I" : "D"
+    const policyArea = policyAreas[Math.floor(Math.random() * policyAreas.length)]
+    const billNumber = generateBillNumber(chamber, i)
+    const billTitle = generateBillTitle(policyArea)
+
+    // Get status based on type
+    let status
+    if (type === "passed") {
+      const passedStatuses = statuses[type] as string[]
+      status = passedStatuses[Math.floor(Math.random() * passedStatuses.length)]
+    } else {
+      status = statuses[type] as string
+    }
+
+    // Generate committees based on status and chamber
+    let committeeCount = 1
+    if (status === "Passed House" || status === "Passed Senate") {
+      committeeCount = 2
+    } else if (status === "Passed House and Senate" || status === "Enacted") {
+      committeeCount = Math.floor(Math.random() * 2) + 2 // 2-3 committees
+    }
+
+    const committees = generateCommittees(chamber, committeeCount)
+
+    // For passed bills that have gone to the other chamber, add committees from that chamber
+    if (
+      status === "Passed House" ||
+      status === "Passed Senate" ||
+      status === "Passed House and Senate" ||
+      status === "Enacted"
+    ) {
+      const otherChamber = chamber === "House" ? "Senate" : "House"
+      const otherCommittees = generateCommittees(otherChamber, 1)
+      committees.push(...otherCommittees)
+    }
+
+    bills.push({
+      id: generateBillId(chamber, i),
+      number: billNumber,
+      title: billTitle,
+      description: generateBillDescription(billTitle, policyArea),
+      date: generateRandomDate(),
+      sponsor:
+        chamber === "House"
+          ? houseSponsors[Math.floor(Math.random() * houseSponsors.length)]
+          : senateSponsors[Math.floor(Math.random() * senateSponsors.length)],
+      sponsorParty: sponsorParty,
+      chamber: chamber,
+      status: status,
+      lastAction: generateLastAction(status, chamber),
+      policyArea: policyArea,
+      committees: committees,
+    })
+  }
+
+  return bills
 }

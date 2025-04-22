@@ -1,12 +1,15 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface PaginationProps {
   totalPages: number
-  currentPage?: number
+  currentPage: number
+  onPageChange: (page: number) => void
 }
 
-export function Pagination({ totalPages, currentPage = 1 }: PaginationProps) {
+export function Pagination({ totalPages, currentPage, onPageChange }: PaginationProps) {
   // Generate page numbers to display
   const getPageNumbers = () => {
     const pages = []
@@ -61,7 +64,7 @@ export function Pagination({ totalPages, currentPage = 1 }: PaginationProps) {
 
   return (
     <div className="flex items-center justify-center space-x-2 py-8">
-      <Button variant="outline" size="icon" disabled={currentPage === 1}>
+      <Button variant="outline" size="icon" disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)}>
         <ChevronLeft className="h-4 w-4" />
         <span className="sr-only">Previous page</span>
       </Button>
@@ -77,13 +80,19 @@ export function Pagination({ totalPages, currentPage = 1 }: PaginationProps) {
             variant={currentPage === page ? "default" : "outline"}
             size="icon"
             className="w-9 h-9"
+            onClick={() => onPageChange(page as number)}
           >
             {page}
           </Button>
         ),
       )}
 
-      <Button variant="outline" size="icon" disabled={currentPage === totalPages}>
+      <Button
+        variant="outline"
+        size="icon"
+        disabled={currentPage === totalPages}
+        onClick={() => onPageChange(currentPage + 1)}
+      >
         <ChevronRight className="h-4 w-4" />
         <span className="sr-only">Next page</span>
       </Button>
