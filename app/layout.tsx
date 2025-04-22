@@ -12,6 +12,10 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Legislation Explainer",
   description: "Get clear, concise explanations of any legislation in seconds",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
     generator: 'v0.dev'
 }
 
