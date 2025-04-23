@@ -87,14 +87,26 @@ export default function RecentBillsPage() {
   }
 
   const handleFilterChange = (newFilters: FilterOptions) => {
-    setFilters(newFilters)
-    // Reset to page 1 when filters change
-    setCurrentPages({
-      introduced: 1,
-      active: 1,
-      passed: 1,
-      enacted: 1,
-    })
+    try {
+      // Ensure all filter properties exist to prevent errors
+      const safeFilters = {
+        policyAreas: newFilters.policyAreas || [],
+        parties: newFilters.parties || [],
+        chambers: newFilters.chambers || [],
+      }
+
+      setFilters(safeFilters)
+
+      // Reset to page 1 when filters change
+      setCurrentPages({
+        introduced: 1,
+        active: 1,
+        passed: 1,
+        enacted: 1,
+      })
+    } catch (error) {
+      console.error("Error applying filters:", error)
+    }
   }
 
   const resetFilters = () => {

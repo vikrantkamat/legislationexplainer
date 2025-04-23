@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -65,9 +65,17 @@ interface BillFiltersProps {
 
 export function BillFilters({ filters, onFilterChange, onResetFilters }: BillFiltersProps) {
   const [showAllPolicyAreas, setShowAllPolicyAreas] = useState(false)
-  const [selectedPolicyAreas, setSelectedPolicyAreas] = useState<string[]>(filters.policyAreas)
-  const [selectedParties, setSelectedParties] = useState<string[]>(filters.parties)
-  const [selectedChambers, setSelectedChambers] = useState<string[]>(filters.chambers)
+  const [selectedPolicyAreas, setSelectedPolicyAreas] = useState<string[]>(filters.policyAreas || [])
+  const [selectedParties, setSelectedParties] = useState<string[]>(filters.parties || [])
+  const [selectedChambers, setSelectedChambers] = useState<string[]>(filters.chambers || [])
+  const [isOpen, setIsOpen] = useState(false)
+
+  // Sync local state with props when filters change externally
+  useEffect(() => {
+    setSelectedPolicyAreas(filters.policyAreas || [])
+    setSelectedParties(filters.parties || [])
+    setSelectedChambers(filters.chambers || [])
+  }, [filters])
 
   const handlePolicyAreaChange = (policyArea: string, checked: boolean) => {
     setSelectedPolicyAreas((prev) => {
@@ -100,11 +108,16 @@ export function BillFilters({ filters, onFilterChange, onResetFilters }: BillFil
   }
 
   const applyFilters = () => {
-    onFilterChange({
-      policyAreas: selectedPolicyAreas,
-      parties: selectedParties,
-      chambers: selectedChambers,
-    })
+    try {
+      onFilterChange({
+        policyAreas: selectedPolicyAreas,
+        parties: selectedParties,
+        chambers: selectedChambers,
+      })
+      setIsOpen(false) // Close dropdown after applying filters
+    } catch (error) {
+      console.error("Error applying filters:", error)
+    }
   }
 
   const resetFilters = () => {
@@ -112,14 +125,16 @@ export function BillFilters({ filters, onFilterChange, onResetFilters }: BillFil
     setSelectedParties([])
     setSelectedChambers([])
     onResetFilters()
+    setIsOpen(false) // Close dropdown after resetting filters
   }
 
-  const hasActiveFilters = filters.policyAreas.length > 0 || filters.parties.length > 0 || filters.chambers.length > 0
+  const hasActiveFilters =
+    filters.policyAreas?.length > 0 || filters.parties?.length > 0 || filters.chambers?.length > 0
 
   return (
     <>
       <div className="flex gap-2">
-        <DropdownMenu>
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
@@ -129,13 +144,15 @@ export function BillFilters({ filters, onFilterChange, onResetFilters }: BillFil
               Filters
               {hasActiveFilters && (
                 <span className="flex items-center justify-center rounded-full bg-primary text-primary-foreground h-5 w-5 text-xs">
-                  {filters.policyAreas.length + filters.parties.length + filters.chambers.length}
+                  {(filters.policyAreas?.length || 0) +
+                    (filters.parties?.length || 0) +
+                    (filters.chambers?.length || 0)}
                 </span>
               )}
               <ChevronDown className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
+          <DropdownMenuContent className="w-56" align="end" sideOffset={8} collisionPadding={16}>
             <DropdownMenuLabel>Filter Bills By</DropdownMenuLabel>
             <DropdownMenuSeparator />
 
@@ -201,7 +218,14 @@ export function BillFilters({ filters, onFilterChange, onResetFilters }: BillFil
               >
                 Energy
               </DropdownMenuCheckboxItem>
-              <DropdownMenuItem onClick={() => setShowAllPolicyAreas(true)}>View All Policy Areas...</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setIsOpen(false)
+                  setShowAllPolicyAreas(true)
+                }}
+              >
+                View All Policy Areas...
+              </DropdownMenuItem>
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />
