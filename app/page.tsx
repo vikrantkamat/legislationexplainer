@@ -1,6 +1,8 @@
 import { LegislationExplainer } from "@/components/legislation-explainer"
-import { BookOpen, Scale, FileText, Lightbulb } from "lucide-react"
+import { BookOpen, Scale, FileText, Lightbulb, ArrowRight } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animation"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function Home() {
   return (
@@ -36,7 +38,8 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-medium mb-2">Track Recent Bills</h3>
               <p className="text-muted-foreground">
-                Stay informed about the latest bills and legislation in the House and Senate
+                Stay informed about the latest bills and legislation in the House and Senate. Monitor progress through
+                the legislative process.
               </p>
             </div>
           </ScrollAnimation>
@@ -47,17 +50,30 @@ export default function Home() {
                 <Lightbulb className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-lg font-medium mb-2">AI-Powered Insights</h3>
-              <p className="text-muted-foreground">Leverage large learning models to break down complex legal concepts </p>
+              <p className="text-muted-foreground">
+                Leverage advanced AI to break down complex legal concepts into understandable language
+              </p>
             </div>
           </ScrollAnimation>
         </div>
+
+        <ScrollAnimation>
+          <div className="text-center mb-8">
+            <Button asChild size="lg" className="group">
+              <Link href="/recent-bills">
+                Click here to explore recent bills
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          </div>
+        </ScrollAnimation>
 
         <ScrollAnimation>
           <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
             <div className="p-6 border-b bg-muted/50">
               <h2 className="text-2xl font-semibold">Explain Any Legislation</h2>
               <p className="text-muted-foreground mt-1">
-                Paste legislation text or select a recent bill to get started
+                If you prefer, search by pasting legislation text or bill numbers below
               </p>
             </div>
             <div className="p-6">
