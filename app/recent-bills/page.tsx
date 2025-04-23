@@ -4,9 +4,7 @@ import type React from "react"
 
 import { useState, useRef } from "react"
 import { BillsList } from "@/components/bills-list"
-import { BillFilters, type FilterOptions } from "@/components/bill-filters"
-import { CheckCircle, Clock, Search, Filter } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { CheckCircle, Clock, Filter } from "lucide-react"
 import { Pagination } from "@/components/pagination"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import {
@@ -42,7 +40,6 @@ function GavelIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function RecentBillsPage() {
-  const [searchTerm, setSearchTerm] = useState("")
   const [currentPages, setCurrentPages] = useState({
     introduced: 1,
     active: 1,
@@ -56,11 +53,12 @@ export default function RecentBillsPage() {
     passed: 5,
     enacted: 3,
   })
-  const [filters, setFilters] = useState<FilterOptions>({
+  // Keep empty filters for compatibility with BillsList component
+  const emptyFilters = {
     policyAreas: [],
     parties: [],
     chambers: [],
-  })
+  }
 
   const tabsListRef = useRef<HTMLDivElement>(null)
 
@@ -71,58 +69,8 @@ export default function RecentBillsPage() {
     }))
   }
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value)
-    // Reset to page 1 when searching
-    setCurrentPages({
-      introduced: 1,
-      active: 1,
-      passed: 1,
-      enacted: 1,
-    })
-  }
-
   const handleTabChange = (value: string) => {
     setActiveTab(value)
-  }
-
-  const handleFilterChange = (newFilters: FilterOptions) => {
-    try {
-      // Ensure all filter properties exist to prevent errors
-      const safeFilters = {
-        policyAreas: newFilters.policyAreas || [],
-        parties: newFilters.parties || [],
-        chambers: newFilters.chambers || [],
-      }
-
-      setFilters(safeFilters)
-
-      // Reset to page 1 when filters change
-      setCurrentPages({
-        introduced: 1,
-        active: 1,
-        passed: 1,
-        enacted: 1,
-      })
-    } catch (error) {
-      console.error("Error applying filters:", error)
-    }
-  }
-
-  const resetFilters = () => {
-    setFilters({
-      policyAreas: [],
-      parties: [],
-      chambers: [],
-    })
-    setSearchTerm("")
-    // Reset to page 1 when filters are reset
-    setCurrentPages({
-      introduced: 1,
-      active: 1,
-      passed: 1,
-      enacted: 1,
-    })
   }
 
   return (
@@ -132,22 +80,6 @@ export default function RecentBillsPage() {
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-gradient">Recent Bills</h1>
             <p className="text-xl text-muted-foreground">Track the latest legislation in Congress</p>
-          </div>
-        </ScrollAnimation>
-
-        <ScrollAnimation>
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-            <div className="relative w-full sm:max-w-md">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search bills by keyword or number..."
-                className="pl-9 w-full"
-                value={searchTerm}
-                onChange={handleSearch}
-              />
-            </div>
-            <BillFilters filters={filters} onFilterChange={handleFilterChange} onResetFilters={resetFilters} />
           </div>
         </ScrollAnimation>
 
@@ -171,10 +103,10 @@ export default function RecentBillsPage() {
             <SlidingTabsContent value="introduced">
               <BillsList
                 type="introduced"
-                searchTerm={searchTerm}
+                searchTerm=""
                 currentPage={currentPages.introduced}
                 onPageChange={(page) => handlePageChange("introduced", page)}
-                filters={filters}
+                filters={emptyFilters}
               />
               <Pagination
                 totalPages={totalPages.introduced}
@@ -185,10 +117,10 @@ export default function RecentBillsPage() {
             <SlidingTabsContent value="active">
               <BillsList
                 type="active"
-                searchTerm={searchTerm}
+                searchTerm=""
                 currentPage={currentPages.active}
                 onPageChange={(page) => handlePageChange("active", page)}
-                filters={filters}
+                filters={emptyFilters}
               />
               <Pagination
                 totalPages={totalPages.active}
@@ -199,10 +131,10 @@ export default function RecentBillsPage() {
             <SlidingTabsContent value="passed">
               <BillsList
                 type="passed"
-                searchTerm={searchTerm}
+                searchTerm=""
                 currentPage={currentPages.passed}
                 onPageChange={(page) => handlePageChange("passed", page)}
-                filters={filters}
+                filters={emptyFilters}
               />
               <Pagination
                 totalPages={totalPages.passed}
@@ -213,10 +145,10 @@ export default function RecentBillsPage() {
             <SlidingTabsContent value="enacted">
               <BillsList
                 type="enacted"
-                searchTerm={searchTerm}
+                searchTerm=""
                 currentPage={currentPages.enacted}
                 onPageChange={(page) => handlePageChange("enacted", page)}
-                filters={filters}
+                filters={emptyFilters}
               />
               <Pagination
                 totalPages={totalPages.enacted}

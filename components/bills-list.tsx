@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import { Calendar, User, ExternalLink, Building, Tag, FileSearch } from "lucide-react"
+import { Calendar, User, ExternalLink, Building, Tag } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import { generateBills } from "@/lib/bill-data"
 import type { FilterOptions } from "@/components/bill-filters"
@@ -46,50 +46,12 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
     setAllBills(bills)
   }, [type])
 
-  // Filter bills based on search term and filters
+  // Update filtered bills
   useEffect(() => {
-    let filtered = [...allBills]
-
-    // Apply search filter - prioritize prefix matching
-    if (searchTerm.trim()) {
-      const term = searchTerm.toLowerCase()
-      filtered = filtered.filter(
-        (bill) =>
-          // Prefix matching for bill numbers
-          bill.number.toLowerCase().startsWith(term) ||
-          // For other fields, continue with contains matching
-          bill.title
-            .toLowerCase()
-            .includes(term) ||
-          bill.description.toLowerCase().includes(term) ||
-          bill.policyArea?.toLowerCase().includes(term) ||
-          bill.sponsor.toLowerCase().includes(term),
-      )
-    }
-
-    // Apply policy area filters
-    if (filters.policyAreas && filters.policyAreas.length > 0) {
-      filtered = filtered.filter((bill) => bill.policyArea && filters.policyAreas.includes(bill.policyArea))
-    }
-
-    // Apply party filters
-    if (filters.parties && filters.parties.length > 0) {
-      filtered = filtered.filter((bill) => filters.parties.includes(bill.sponsorParty))
-    }
-
-    // Apply chamber filters (kept for backward compatibility)
-    if (filters.chambers && filters.chambers.length > 0) {
-      filtered = filtered.filter((bill) => filters.chambers.includes(bill.chamber))
-    }
-
-    setFilteredBills(filtered)
-    setTotalPages(Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE)))
-
-    // If current page is now out of bounds, reset to page 1
-    if (currentPage > Math.ceil(filtered.length / ITEMS_PER_PAGE)) {
-      onPageChange(1)
-    }
-  }, [searchTerm, allBills, filters, currentPage, onPageChange])
+    // Since we've removed search and filters, we just use all bills
+    setFilteredBills(allBills)
+    setTotalPages(Math.max(1, Math.ceil(allBills.length / ITEMS_PER_PAGE)))
+  }, [allBills])
 
   // Update displayed bills based on current page
   useEffect(() => {
@@ -97,13 +59,6 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
     const endIndex = startIndex + ITEMS_PER_PAGE
     setDisplayedBills(filteredBills.slice(startIndex, endIndex))
   }, [filteredBills, currentPage])
-
-  // Determine if filters are active
-  const hasActiveFilters =
-    filters.policyAreas?.length > 0 ||
-    filters.parties?.length > 0 ||
-    filters.chambers?.length > 0 ||
-    searchTerm.trim() !== ""
 
   return (
     <>
@@ -173,27 +128,8 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
             </ScrollAnimation>
           ))
         ) : (
-          <div className="text-center py-8 border rounded-lg bg-muted/20 p-6">
-            <FileSearch className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-medium mb-2">No matching bills found</h3>
-            <p className="text-muted-foreground mb-4">
-              {hasActiveFilters
-                ? `No ${type} bills match your current ${
-                    searchTerm ? "search and " : ""
-                  }filter criteria. Try adjusting your filters or search term.`
-                : `There are no ${type} bills available at this time. Please check back later.`}
-            </p>
-            {hasActiveFilters && (
-              <Button
-                variant="outline"
-                className="mt-2"
-                onClick={() => {
-                  onPageChange(1)
-                }}
-              >
-                View All Bills
-              </Button>
-            )}
+          <div className="text-center py-8">
+            <p className="text-muted-foreground">No bills found.</p>
           </div>
         )}
       </div>
