@@ -35,7 +35,9 @@ export default function Home() {
                 <FileText className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-lg font-medium mb-2">Track Recent Bills</h3>
-              <p className="text-muted-foreground">Stay informed about the latest legislation in Congress</p>
+              <p className="text-muted-foreground">
+                Stay informed about the latest bills and legislation in the House and Senate
+              </p>
             </div>
           </ScrollAnimation>
 
@@ -45,7 +47,7 @@ export default function Home() {
                 <Lightbulb className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-lg font-medium mb-2">AI-Powered Insights</h3>
-              <p className="text-muted-foreground">Leverage advanced AI to break down complex legal concepts</p>
+              <p className="text-muted-foreground">Leverage large learning models to break down complex legal concepts </p>
             </div>
           </ScrollAnimation>
         </div>
