@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Loader2, FileText, Sparkles } from "lucide-react"
+import { Loader2, FileText, BookOpen } from "lucide-react"
 import { ExplanationResult } from "@/components/explanation-result"
 import { useEffect } from "react"
 import { billTexts } from "@/lib/bill-data"
@@ -36,11 +36,13 @@ export function LegislationForm() {
             : `Bill ${billId.toUpperCase()}`
 
         setLegislation(
-          `${billTitle} (${billNumber}): Please explain this legislation, its key provisions, and potential impacts.`,
+          `${billTitle} (${billNumber}): Please explain this legislation based on the official text from Congress.gov.`,
         )
       } else {
         // Fallback if we don't have title or text
-        setLegislation(`Bill ${billId.toUpperCase()}: Please explain this legislation.`)
+        setLegislation(
+          `Bill ${billId.toUpperCase()}: Please explain this legislation based on the official text from Congress.gov.`,
+        )
       }
     }
   }, [searchParams])
@@ -89,11 +91,11 @@ export function LegislationForm() {
             className="flex items-center text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
             <FileText className="h-4 w-4 mr-2 text-primary" />
-            Enter Legislation Text
+            Enter Legislation Text or Bill Number
           </label>
           <Textarea
             id="legislation"
-            placeholder="Paste the legislation text you want explained..."
+            placeholder="Paste the legislation text or enter a bill number (e.g., H.R. 1234 or S. 567)..."
             className="min-h-[200px] resize-y"
             value={legislation}
             onChange={(e) => setLegislation(e.target.value)}
@@ -105,12 +107,12 @@ export function LegislationForm() {
           {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Generating Explanation...
+              Analyzing Legislation...
             </>
           ) : (
             <>
-              <Sparkles className="mr-2 h-4 w-4" />
-              Explain This Legislation
+              <BookOpen className="mr-2 h-4 w-4" />
+              Get Factual Explanation
             </>
           )}
         </Button>

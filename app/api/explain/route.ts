@@ -10,16 +10,48 @@ export async function POST(req: Request) {
     }
 
     // Check if this is a bill title request (not full text)
-    const isBillTitleRequest = legislation.includes("Please explain this legislation")
+    const isBillTitleRequest =
+      legislation.includes("Please explain this legislation") || legislation.includes("explain this bill")
 
-    const systemPrompt = isBillTitleRequest
-      ? "You are an expert in legal analysis and plain language communication. Your task is to explain legislation based on its title. Even if you don't have the full text, provide a helpful explanation of what this type of bill likely covers, its potential provisions, and implications based on similar legislation. Be informative and educational. Do not use asterisks or markdown formatting in your response. Do not mention that you don't have the full text - instead, provide the best explanation you can based on the title."
-      : "You are an expert in legal analysis and plain language communication. Your task is to explain complex legislation in clear, concise terms that anyone can understand. Focus on breaking down legal jargon, explaining key provisions, and highlighting practical implications. Organize your explanation in a structured way with clear sections. Be objective and factual in your analysis. Do not use asterisks or markdown formatting in your response."
+    // Extract bill number if available
+    let billNumber = null
+    if (isBillTitleRequest) {
+      // Try to extract bill number from the request
+      const billNumberMatch = legislation.match(/([HS]\.\s*\d+|[HS]R\s*\d+|H\.\s*R\.\s*\d+)/i)
+      if (billNumberMatch) {
+        billNumber = billNumberMatch[0].replace(/\s+/g, "")
+      }
+    }
+
+    // Create a more authoritative system prompt
+    const systemPrompt = `You are an expert legislative analyst providing factual, authoritative explanations of legislation. 
+    
+Your task is to explain legislation in clear, simple language that anyone can understand, while maintaining complete accuracy.
+
+IMPORTANT GUIDELINES:
+1. Use definitive, authoritative language. Avoid hedging terms like "if", "could", "should", "would", "might", "may".
+2. Present information as established facts, not possibilities or opinions.
+3. Base your explanation ONLY on the actual text of the legislation provided.
+4. Break down complex legal concepts into plain language without oversimplification.
+5. Organize your explanation in a clear, structured format.
+6. Focus on what the legislation DOES establish, not what it might do or could lead to.
+7. Do not include any personal opinions, political commentary, or subjective assessments.
+8. Do not use asterisks or markdown formatting in your response.
+9. When explaining a bill by its number or title, state clearly that your explanation is based on the official text from Congress.gov, Senate.gov, or House.gov.
+10. Present the information as if you have directly analyzed the official bill text from government sources.
+
+Your explanation should read as an authoritative, factual breakdown that a government agency would provide.`
+
+    // If we have a bill number, include it in the prompt
+    const promptPrefix = billNumber
+      ? `I need a factual explanation of bill ${billNumber} based on the official text from Congress.gov. Explain in simple terms what this legislation establishes and its key provisions:\n\n`
+      : `I need a factual explanation of the following legislation based on its official text. Explain in simple terms what this legislation establishes and its key provisions:\n\n`
 
     const result = await generateText({
       model: groq("llama-3.1-8b-instant"),
-      prompt: `I need a clear explanation of the following legislation in simple terms that anyone can understand. Please break down the key points, explain any legal jargon, and highlight the practical implications for ordinary citizens:\n\n${legislation}`,
+      prompt: `${promptPrefix}${legislation}`,
       system: systemPrompt,
+      temperature: 0.1, // Lower temperature for more factual, deterministic responses
     })
 
     // Clean up the text by removing asterisks and any markdown formatting
