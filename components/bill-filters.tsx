@@ -67,14 +67,12 @@ export function BillFilters({ filters, onFilterChange, onResetFilters }: BillFil
   const [showAllPolicyAreas, setShowAllPolicyAreas] = useState(false)
   const [selectedPolicyAreas, setSelectedPolicyAreas] = useState<string[]>(filters.policyAreas || [])
   const [selectedParties, setSelectedParties] = useState<string[]>(filters.parties || [])
-  const [selectedChambers, setSelectedChambers] = useState<string[]>(filters.chambers || [])
   const [isOpen, setIsOpen] = useState(false)
 
   // Sync local state with props when filters change externally
   useEffect(() => {
     setSelectedPolicyAreas(filters.policyAreas || [])
     setSelectedParties(filters.parties || [])
-    setSelectedChambers(filters.chambers || [])
   }, [filters])
 
   const handlePolicyAreaChange = (policyArea: string, checked: boolean) => {
@@ -97,22 +95,12 @@ export function BillFilters({ filters, onFilterChange, onResetFilters }: BillFil
     })
   }
 
-  const handleChamberChange = (chamber: string, checked: boolean) => {
-    setSelectedChambers((prev) => {
-      if (checked) {
-        return [...prev, chamber]
-      } else {
-        return prev.filter((c) => c !== chamber)
-      }
-    })
-  }
-
   const applyFilters = () => {
     try {
       onFilterChange({
         policyAreas: selectedPolicyAreas,
         parties: selectedParties,
-        chambers: selectedChambers,
+        chambers: [], // Keep empty array for backward compatibility
       })
       setIsOpen(false) // Close dropdown after applying filters
     } catch (error) {
@@ -123,13 +111,11 @@ export function BillFilters({ filters, onFilterChange, onResetFilters }: BillFil
   const resetFilters = () => {
     setSelectedPolicyAreas([])
     setSelectedParties([])
-    setSelectedChambers([])
     onResetFilters()
     setIsOpen(false) // Close dropdown after resetting filters
   }
 
-  const hasActiveFilters =
-    filters.policyAreas?.length > 0 || filters.parties?.length > 0 || filters.chambers?.length > 0
+  const hasActiveFilters = filters.policyAreas?.length > 0 || filters.parties?.length > 0
 
   return (
     <>
@@ -144,34 +130,21 @@ export function BillFilters({ filters, onFilterChange, onResetFilters }: BillFil
               Filters
               {hasActiveFilters && (
                 <span className="flex items-center justify-center rounded-full bg-primary text-primary-foreground h-5 w-5 text-xs">
-                  {(filters.policyAreas?.length || 0) +
-                    (filters.parties?.length || 0) +
-                    (filters.chambers?.length || 0)}
+                  {(filters.policyAreas?.length || 0) + (filters.parties?.length || 0)}
                 </span>
               )}
               <ChevronDown className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" sideOffset={8} collisionPadding={16}>
+          <DropdownMenuContent
+            className="w-56"
+            align="end"
+            sideOffset={8}
+            collisionPadding={16}
+            // Explicitly set modal to false to allow scrolling
+            modal={false}
+          >
             <DropdownMenuLabel>Filter Bills By</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">Chamber</DropdownMenuLabel>
-              <DropdownMenuCheckboxItem
-                checked={selectedChambers.includes("House")}
-                onCheckedChange={(checked) => handleChamberChange("House", checked === true)}
-              >
-                House Bills
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                checked={selectedChambers.includes("Senate")}
-                onCheckedChange={(checked) => handleChamberChange("Senate", checked === true)}
-              >
-                Senate Bills
-              </DropdownMenuCheckboxItem>
-            </DropdownMenuGroup>
-
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>

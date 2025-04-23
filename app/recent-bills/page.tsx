@@ -115,6 +115,7 @@ export default function RecentBillsPage() {
       parties: [],
       chambers: [],
     })
+    setSearchTerm("")
     // Reset to page 1 when filters are reset
     setCurrentPages({
       introduced: 1,
