@@ -149,7 +149,10 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
                 </CardContent>
                 <CardFooter className="border-t bg-muted/30 px-6 py-4">
                   <Button asChild className="w-full sm:w-auto">
-                    <Link href={`/?bill=${bill.id}`} className="flex items-center justify-center">
+                    <Link
+                      href={`/?bill=${bill.id}&title=${encodeURIComponent(bill.title)}`}
+                      className="flex items-center justify-center"
+                    >
                       <ExternalLink className="h-4 w-4 mr-2" />
                       Explain This Bill
                     </Link>

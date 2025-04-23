@@ -21,13 +21,27 @@ export function LegislationForm() {
   // Handle bill parameter from URL
   useEffect(() => {
     const billId = searchParams.get("bill")
-    if (billId && billTexts[billId]) {
-      setLegislation(billTexts[billId])
-    } else if (billId) {
-      // Fallback for bills not in our database
-      setLegislation(
-        `This bill (${billId}) is not currently in our database. Please check back later or enter the text manually.`,
-      )
+    const billTitle = searchParams.get("title")
+
+    if (billId) {
+      if (billTexts[billId]) {
+        // If bill exists in our database, use the full text
+        setLegislation(billTexts[billId])
+      } else if (billTitle) {
+        // If bill doesn't exist but we have the title, use the title for explanation
+        const billNumber = billId.toUpperCase().startsWith("HR")
+          ? billId.toUpperCase()
+          : billId.toUpperCase().startsWith("S")
+            ? billId.toUpperCase()
+            : `Bill ${billId.toUpperCase()}`
+
+        setLegislation(
+          `${billTitle} (${billNumber}): Please explain this legislation, its key provisions, and potential impacts.`,
+        )
+      } else {
+        // Fallback if we don't have title or text
+        setLegislation(`Bill ${billId.toUpperCase()}: Please explain this legislation.`)
+      }
     }
   }, [searchParams])
 

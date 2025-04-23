@@ -20,7 +20,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <ScrollAnimation stagger={1}>
-            <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm">
+            <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm h-full">
               <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 dark:bg-blue-900/30">
                 <Scale className="h-6 w-6 text-primary" />
               </div>
@@ -30,7 +30,7 @@ export default function Home() {
           </ScrollAnimation>
 
           <ScrollAnimation stagger={2}>
-            <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm">
+            <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm h-full">
               <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 dark:bg-blue-900/30">
                 <FileText className="h-6 w-6 text-primary" />
               </div>
@@ -40,7 +40,7 @@ export default function Home() {
           </ScrollAnimation>
 
           <ScrollAnimation stagger={3}>
-            <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm">
+            <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm h-full">
               <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 dark:bg-blue-900/30">
                 <Lightbulb className="h-6 w-6 text-primary" />
               </div>
