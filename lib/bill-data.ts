@@ -1,3 +1,37 @@
+// First, let's create a mapping of bill titles to their IDs
+export const billTitleToId: Record<string, string> = {
+  "Quantum Computing Research and Development Act of 2025": "hr9512",
+  "Rural Broadband Expansion Act of 2025": "s5102",
+  "Renewable Energy Innovation and Manufacturing Act": "hr9498",
+  "Cybersecurity Enhancement and Protection Act of 2024": "s5089",
+  "Small Business Innovation and Growth Act": "hr9475",
+  "Climate Resilience Infrastructure Act of 2024": "hr9450",
+  "Artificial Intelligence Ethics and Regulation Act": "s5045",
+  "Healthcare Cost Reduction Act of 2024": "hr9425",
+  "Veterans Mental Health Services Enhancement Act": "hr9410",
+  "Digital Privacy Protection Act of 2024": "s5020",
+  "Supply Chain Security and Resilience Act": "hr9395",
+  "National Defense Authorization Act for Fiscal Year 2025": "hr9380",
+  "Consolidated Appropriations Act, 2025": "s5010",
+  "Bipartisan Infrastructure Implementation Act": "hr9365",
+  "Data Privacy and Protection Act of 2025": "hr9600",
+  "Clean Energy Transition Act of 2025": "s5150",
+  "Affordable Housing and Homelessness Prevention Act of 2025": "hr9625",
+  "National AI Safety and Innovation Act of 2025": "s5175",
+  "Mental Health Access Improvement Act of 2025": "hr9650",
+  "Education Modernization and Opportunity Act of 2025": "hr9675",
+  "Water Resources Protection Act of 2025": "s5200",
+  "Transportation Innovation and Safety Act of 2025": "hr9700",
+  "Public Health Preparedness and Response Act of 2025": "s5225",
+  "Small Business Recovery and Resilience Act of 2025": "hr9725",
+  "Agricultural Sustainability and Innovation Act of 2025": "s5250",
+  "Consumer Protection and Market Fairness Act of 2025": "hr9750",
+  "Veterans Benefits and Services Improvement Act of 2025": "s5275",
+  "Clean Air and Climate Action Act of 2025": "hr9775",
+  "Financial Services Innovation and Security Act of 2025": "s5300",
+  "Energy Infrastructure Modernization Act of 2025": "hr9800",
+}
+
 // Original bill data
 export const billTexts: Record<string, string> = {
   hr9512: `
@@ -414,6 +448,475 @@ Sec. 303. Tribal Infrastructure Technical Assistance.
 Sec. 304. Infrastructure Implementation Best Practices.
 Sec. 305. Authorization of appropriations.
 `,
+  // Adding new bills
+  hr9600: `
+Data Privacy and Protection Act of 2025
+
+TITLE I—CONSUMER DATA RIGHTS
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Consumer Data Rights.
+Sec. 104. Right to Access and Delete Personal Data.
+Sec. 105. Right to Data Portability.
+Sec. 106. Right to Opt Out of Data Sales and Targeted Advertising.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—BUSINESS OBLIGATIONS
+
+Sec. 201. Data Minimization Requirements.
+Sec. 202. Privacy by Design.
+Sec. 203. Transparency Requirements.
+Sec. 204. Data Security Requirements.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—ENFORCEMENT
+
+Sec. 301. Federal Trade Commission Authority.
+Sec. 302. State Attorney General Enforcement.
+Sec. 303. Private Right of Action.
+Sec. 304. Penalties and Remedies.
+Sec. 305. Authorization of appropriations.
+`,
+  s5150: `
+Clean Energy Transition Act of 2025
+
+TITLE I—CLEAN ENERGY DEPLOYMENT
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Clean Energy Deployment Program.
+Sec. 104. Clean Energy Investment Tax Credits.
+Sec. 105. Grid Modernization and Resilience.
+Sec. 106. Clean Energy Manufacturing Incentives.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—CLIMATE RESILIENCE
+
+Sec. 201. Climate Resilience Planning.
+Sec. 202. Climate Adaptation Fund.
+Sec. 203. Community Climate Resilience Grants.
+Sec. 204. Climate Science and Research.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—JUST TRANSITION
+
+Sec. 301. Energy Worker Transition Program.
+Sec. 302. Community Economic Development Assistance.
+Sec. 303. Energy Transition Workforce Training.
+Sec. 304. Environmental Justice Initiatives.
+Sec. 305. Authorization of appropriations.
+`,
+  hr9625: `
+Affordable Housing and Homelessness Prevention Act of 2025
+
+TITLE I—AFFORDABLE HOUSING DEVELOPMENT
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Affordable Housing Development Fund.
+Sec. 104. Low-Income Housing Tax Credit Enhancement.
+Sec. 105. First-Time Homebuyer Assistance.
+Sec. 106. Housing Trust Fund Expansion.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—HOMELESSNESS PREVENTION
+
+Sec. 201. Homelessness Prevention Program.
+Sec. 202. Emergency Rental Assistance.
+Sec. 203. Supportive Housing Services.
+Sec. 204. Rapid Rehousing Initiatives.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—HOUSING STABILITY
+
+Sec. 301. Housing Stability Fund.
+Sec. 302. Eviction Prevention Services.
+Sec. 303. Housing Counseling Programs.
+Sec. 304. Fair Housing Enforcement.
+Sec. 305. Authorization of appropriations.
+`,
+  s5175: `
+National AI Safety and Innovation Act of 2025
+
+TITLE I—AI GOVERNANCE AND SAFETY
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. National AI Safety Board.
+Sec. 104. AI Risk Assessment Framework.
+Sec. 105. AI Safety Standards.
+Sec. 106. High-Risk AI Systems Oversight.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—AI RESEARCH AND INNOVATION
+
+Sec. 201. National AI Research Program.
+Sec. 202. AI Research Infrastructure.
+Sec. 203. AI Talent Development.
+Sec. 204. International AI Cooperation.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—AI APPLICATIONS AND IMPACTS
+
+Sec. 301. AI in Government Services.
+Sec. 302. AI in Healthcare.
+Sec. 303. AI in Education.
+Sec. 304. AI Workforce Impacts.
+Sec. 305. Authorization of appropriations.
+`,
+  hr9650: `
+Mental Health Access Improvement Act of 2025
+
+TITLE I—MENTAL HEALTH SERVICES EXPANSION
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Mental Health Services Expansion Program.
+Sec. 104. Mental Health Parity Enforcement.
+Sec. 105. Telehealth Mental Health Services.
+Sec. 106. School-Based Mental Health Services.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—MENTAL HEALTH WORKFORCE
+
+Sec. 201. Mental Health Professional Workforce Development.
+Sec. 202. Mental Health Provider Education and Training.
+Sec. 203. Loan Repayment for Mental Health Professionals.
+Sec. 204. Rural Mental Health Provider Incentives.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—MENTAL HEALTH RESEARCH AND INNOVATION
+
+Sec. 301. Mental Health Research Program.
+Sec. 302. Digital Mental Health Tools.
+Sec. 303. Mental Health Early Intervention.
+Sec. 304. Mental Health Crisis Response.
+Sec. 305. Authorization of appropriations.
+`,
+  // Adding more bills to ensure we have enough for each category
+  hr9675: `
+Education Modernization and Opportunity Act of 2025
+
+TITLE I—K-12 EDUCATION MODERNIZATION
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Digital Learning Infrastructure Grants.
+Sec. 104. Teacher Technology Training Program.
+Sec. 105. Modern Curriculum Development.
+Sec. 106. Student Digital Literacy Initiative.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—HIGHER EDUCATION OPPORTUNITY
+
+Sec. 201. College Affordability Program.
+Sec. 202. Student Loan Reform.
+Sec. 203. Career and Technical Education Enhancement.
+Sec. 204. Higher Education Innovation Grants.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—WORKFORCE READINESS
+
+Sec. 301. Workforce Development Modernization.
+Sec. 302. Industry-Education Partnerships.
+Sec. 303. Lifelong Learning Accounts.
+Sec. 304. Skills-Based Hiring Initiatives.
+Sec. 305. Authorization of appropriations.
+`,
+  s5200: `
+Water Resources Protection Act of 2025
+
+TITLE I—CLEAN WATER INFRASTRUCTURE
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Clean Water Infrastructure Fund.
+Sec. 104. Lead Pipe Replacement Program.
+Sec. 105. Water System Modernization Grants.
+Sec. 106. Rural Water Systems Assistance.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—WATER QUALITY PROTECTION
+
+Sec. 201. Source Water Protection Program.
+Sec. 202. Emerging Contaminants Monitoring.
+Sec. 203. Agricultural Runoff Mitigation.
+Sec. 204. Industrial Discharge Standards.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—WATER RESOURCE MANAGEMENT
+
+Sec. 301. Drought Resilience Program.
+Sec. 302. Flood Prevention and Mitigation.
+Sec. 303. Watershed Restoration Initiatives.
+Sec. 304. Water Conservation Incentives.
+Sec. 305. Authorization of appropriations.
+`,
+  hr9700: `
+Transportation Innovation and Safety Act of 2025
+
+TITLE I—TRANSPORTATION INFRASTRUCTURE
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Surface Transportation Modernization Fund.
+Sec. 104. Bridge Repair and Replacement Program.
+Sec. 105. Public Transit Enhancement Grants.
+Sec. 106. Transportation Electrification Initiative.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—TRANSPORTATION SAFETY
+
+Sec. 201. Vehicle Safety Standards Modernization.
+Sec. 202. Automated Vehicle Safety Framework.
+Sec. 203. Pedestrian and Cyclist Safety Program.
+Sec. 204. Rural Road Safety Improvement.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—TRANSPORTATION INNOVATION
+
+Sec. 301. Transportation Innovation Research Program.
+Sec. 302. Smart Infrastructure Deployment.
+Sec. 303. Sustainable Transportation Initiatives.
+Sec. 304. Transportation Workforce Development.
+Sec. 305. Authorization of appropriations.
+`,
+  s5225: `
+Public Health Preparedness and Response Act of 2025
+
+TITLE I—PUBLIC HEALTH INFRASTRUCTURE
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Public Health Infrastructure Modernization.
+Sec. 104. Laboratory Capacity Enhancement.
+Sec. 105. Disease Surveillance Systems.
+Sec. 106. Public Health Workforce Development.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—EMERGENCY PREPAREDNESS AND RESPONSE
+
+Sec. 201. Strategic National Stockpile Enhancement.
+Sec. 202. Medical Supply Chain Security.
+Sec. 203. Emergency Response Coordination.
+Sec. 204. Medical Countermeasures Development.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—COMMUNITY RESILIENCE
+
+Sec. 301. Community Health Resilience Program.
+Sec. 302. Health Equity Initiatives.
+Sec. 303. Mental Health Emergency Response.
+Sec. 304. Public Health Communications.
+Sec. 305. Authorization of appropriations.
+`,
+  hr9725: `
+Small Business Recovery and Resilience Act of 2025
+
+TITLE I—SMALL BUSINESS RECOVERY
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Small Business Recovery Grant Program.
+Sec. 104. Small Business Loan Forgiveness.
+Sec. 105. Small Business Tax Relief.
+Sec. 106. Small Business Debt Restructuring.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—SMALL BUSINESS RESILIENCE
+
+Sec. 201. Business Continuity Planning Program.
+Sec. 202. Digital Transformation Assistance.
+Sec. 203. Supply Chain Diversification Support.
+Sec. 204. Small Business Cybersecurity Assistance.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—ENTREPRENEURSHIP SUPPORT
+
+Sec. 301. Entrepreneurship Development Program.
+Sec. 302. Underserved Communities Business Development.
+Sec. 303. Innovation and Research Support.
+Sec. 304. Business Mentorship Initiative.
+Sec. 305. Authorization of appropriations.
+`,
+  s5250: `
+Agricultural Sustainability and Innovation Act of 2025
+
+TITLE I—SUSTAINABLE AGRICULTURE
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Sustainable Farming Practices Program.
+Sec. 104. Soil Health Initiative.
+Sec. 105. Water Conservation in Agriculture.
+Sec. 106. Greenhouse Gas Reduction in Agriculture.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—AGRICULTURAL INNOVATION
+
+Sec. 201. Agricultural Research and Development Enhancement.
+Sec. 202. Precision Agriculture Technology Adoption.
+Sec. 203. Agricultural Biotechnology Research.
+Sec. 204. Climate-Resilient Crop Development.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—RURAL DEVELOPMENT
+
+Sec. 301. Rural Economic Development Initiative.
+Sec. 302. Rural Broadband Expansion.
+Sec. 303. Rural Healthcare Improvement.
+Sec. 304. Rural Workforce Development.
+Sec. 305. Authorization of appropriations.
+`,
+  hr9750: `
+Consumer Protection and Market Fairness Act of 2025
+
+TITLE I—CONSUMER PROTECTION
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Consumer Financial Protection Enhancement.
+Sec. 104. Digital Consumer Protection Standards.
+Sec. 105. Product Safety Modernization.
+Sec. 106. Consumer Privacy Safeguards.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—MARKET FAIRNESS
+
+Sec. 201. Antitrust Enforcement Enhancement.
+Sec. 202. Digital Market Competition.
+Sec. 203. Small Business Competition Protection.
+Sec. 204. Merger Review Modernization.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—ENFORCEMENT AND OVERSIGHT
+
+Sec. 301. Regulatory Enforcement Coordination.
+Sec. 302. Consumer Redress Improvement.
+Sec. 303. Market Monitoring and Analysis.
+Sec. 304. International Cooperation on Consumer Protection.
+Sec. 305. Authorization of appropriations.
+`,
+  s5275: `
+Veterans Benefits and Services Improvement Act of 2025
+
+TITLE I—VETERANS HEALTHCARE
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. VA Healthcare System Modernization.
+Sec. 104. Veterans Mental Health Services Enhancement.
+Sec.   103. VA Healthcare System Modernization.
+Sec. 104. Veterans Mental Health Services Enhancement.
+Sec. 105. Rural Veterans Healthcare Access.
+Sec. 106. Women Veterans Healthcare Services.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—VETERANS BENEFITS
+
+Sec. 201. Disability Compensation Improvement.
+Sec. 202. GI Bill Enhancement.
+Sec. 203. Veterans Housing Assistance Modernization.
+Sec. 204. Veterans Employment Services.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—VETERANS SERVICES
+
+Sec. 301. VA Claims Processing Modernization.
+Sec. 302. Veterans Transition Assistance Enhancement.
+Sec. 303. Veterans Community Support Programs.
+Sec. 304. Veterans Caregivers Support Services.
+Sec. 305. Authorization of appropriations.
+`,
+  hr9775: `
+Clean Air and Climate Action Act of 2025
+
+TITLE I—CLEAN AIR PROTECTION
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Air Quality Standards Modernization.
+Sec. 104. Air Pollution Monitoring Enhancement.
+Sec. 105. Industrial Emissions Reduction Program.
+Sec. 106. Clean Transportation Initiatives.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—CLIMATE ACTION
+
+Sec. 201. Greenhouse Gas Reduction Targets.
+Sec. 202. Clean Energy Transition Support.
+Sec. 203. Carbon Capture and Sequestration Program.
+Sec. 204. Climate Resilience Planning.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—ENVIRONMENTAL JUSTICE
+
+Sec. 301. Environmental Justice Program Enhancement.
+Sec. 302. Community Air Monitoring Grants.
+Sec. 303. Just Transition Support for Communities.
+Sec. 304. Public Health Impact Assessment.
+Sec. 305. Authorization of appropriations.
+`,
+  s5300: `
+Financial Services Innovation and Security Act of 2025
+
+TITLE I—FINANCIAL INNOVATION
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Financial Technology Regulatory Framework.
+Sec. 104. Digital Assets and Cryptocurrency Regulation.
+Sec. 105. Financial Inclusion Innovation Program.
+Sec. 106. Open Banking Standards.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—FINANCIAL SECURITY
+
+Sec. 201. Cybersecurity Standards for Financial Institutions.
+Sec. 202. Financial Fraud Prevention and Detection.
+Sec. 203. Systemic Risk Monitoring Enhancement.
+Sec. 204. Financial Privacy Protection.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—FINANCIAL MARKET STABILITY
+
+Sec. 301. Market Volatility Monitoring Program.
+Sec. 302. Financial Crisis Prevention Measures.
+Sec. 303. International Financial Coordination.
+Sec. 304. Consumer Financial Education Initiatives.
+Sec. 305. Authorization of appropriations.
+`,
+  // Adding Energy Infrastructure Modernization Act
+  hr9800: `
+Energy Infrastructure Modernization Act of 2025
+
+TITLE I—ENERGY GRID MODERNIZATION
+
+Sec. 101. Short title.
+Sec. 102. Definitions.
+Sec. 103. Grid Modernization Program.
+Sec. 104. Smart Grid Investment Grants.
+Sec. 105. Grid Resilience and Security Enhancement.
+Sec. 106. Transmission Infrastructure Expansion.
+Sec. 107. Authorization of appropriations.
+
+TITLE II—ENERGY STORAGE AND DISTRIBUTION
+
+Sec. 201. Energy Storage Research and Deployment.
+Sec. 202. Battery Technology Innovation.
+Sec. 203. Hydrogen Infrastructure Development.
+Sec. 204. Distributed Energy Resources Integration.
+Sec. 205. Authorization of appropriations.
+
+TITLE III—CRITICAL ENERGY INFRASTRUCTURE
+
+Sec. 301. Critical Energy Infrastructure Protection.
+Sec. 302. Cybersecurity for Energy Delivery Systems.
+Sec. 303. Physical Security Enhancement.
+Sec. 304. Energy Infrastructure Workforce Development.
+Sec. 305. Authorization of appropriations.
+`,
 }
 
 // Data for bill generation
@@ -544,34 +1047,54 @@ const senateSponsors = [
   "Sen. Romney, Mitt (R-UT)",
 ]
 
-// Function to generate a random date after November 2024
-function generateRandomDate() {
-  // Start from December 1, 2024
-  const start = new Date(2024, 11, 1)
-  // End at December 31, 2025
-  const end = new Date(2025, 11, 31)
-
-  const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-
-  return randomDate.toLocaleDateString("en-US", {
+// Function to generate a date within a specific range
+function generateDateInRange(startDate: Date, endDate: Date) {
+  const timestamp = startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime())
+  const date = new Date(timestamp)
+  return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   })
 }
 
-// Function to generate a random bill number
-function generateBillNumber(chamber: "House" | "Senate", index: number) {
-  const prefix = chamber === "House" ? "H.R." : "S."
-  const baseNumber = chamber === "House" ? 9400 : 5000
-  return `${prefix} ${baseNumber + index}`
-}
+// Function to generate dates for different bill categories
+function generateBillDate(type: "introduced" | "active" | "passed" | "enacted") {
+  // Current date is April 28, 2025
+  const currentDate = new Date(2025, 3, 28)
 
-// Function to generate a random bill ID
-function generateBillId(chamber: "House" | "Senate", index: number) {
-  const prefix = chamber === "House" ? "hr" : "s"
-  const baseNumber = chamber === "House" ? 9400 : 5000
-  return `${prefix}${baseNumber + index}`
+  // Different date ranges for different bill types
+  switch (type) {
+    case "introduced":
+      // Most recent: last 30 days
+      const introStart = new Date(currentDate)
+      introStart.setDate(currentDate.getDate() - 30)
+      return generateDateInRange(introStart, currentDate)
+
+    case "active":
+      // 30-90 days ago
+      const activeStart = new Date(currentDate)
+      activeStart.setDate(currentDate.getDate() - 90)
+      const activeEnd = new Date(currentDate)
+      activeEnd.setDate(currentDate.getDate() - 30)
+      return generateDateInRange(activeStart, activeEnd)
+
+    case "passed":
+      // 90-180 days ago
+      const passedStart = new Date(currentDate)
+      passedStart.setDate(currentDate.getDate() - 180)
+      const passedEnd = new Date(currentDate)
+      passedEnd.setDate(currentDate.getDate() - 90)
+      return generateDateInRange(passedStart, passedEnd)
+
+    case "enacted":
+      // 180-365 days ago
+      const enactedStart = new Date(currentDate)
+      enactedStart.setDate(currentDate.getDate() - 365)
+      const enactedEnd = new Date(currentDate)
+      enactedEnd.setDate(currentDate.getDate() - 180)
+      return generateDateInRange(enactedStart, enactedEnd)
+  }
 }
 
 // Function to generate random committees
@@ -589,124 +1112,6 @@ function generateCommittees(chamber: "House" | "Senate", count = 1) {
   }
 
   return result
-}
-
-// Function to generate a random bill title
-function generateBillTitle(policyArea: string) {
-  const titles = {
-    "Agriculture and Food": [
-      "Agricultural Innovation and Research Act",
-      "Sustainable Farming Practices Act",
-      "Food Security Enhancement Act",
-      "Rural Agricultural Development Act",
-      "Farm Workforce Modernization Act",
-    ],
-    "Armed Forces and National Security": [
-      "Military Readiness Enhancement Act",
-      "Veterans Healthcare Improvement Act",
-      "Defense Infrastructure Modernization Act",
-      "National Security Technology Investment Act",
-      "Military Family Support Act",
-    ],
-    "Civil Rights and Liberties": [
-      "Voting Rights Protection Act",
-      "Equal Justice Under Law Act",
-      "Civil Liberties Enhancement Act",
-      "Anti-Discrimination Enforcement Act",
-      "Privacy Protection and Data Security Act",
-    ],
-    // Add more policy areas as needed
-    Health: [
-      "Healthcare Access Improvement Act",
-      "Medical Research Advancement Act",
-      "Prescription Drug Affordability Act",
-      "Mental Health Services Enhancement Act",
-      "Public Health Emergency Preparedness Act",
-    ],
-    Energy: [
-      "Clean Energy Transition Act",
-      "Renewable Energy Investment Act",
-      "Energy Infrastructure Modernization Act",
-      "Energy Efficiency Standards Act",
-      "Nuclear Energy Innovation Act",
-    ],
-    Education: [
-      "Higher Education Affordability Act",
-      "Early Childhood Education Enhancement Act",
-      "Student Loan Relief Act",
-      "STEM Education Advancement Act",
-      "Teacher Support and Training Act",
-    ],
-    "Science, Technology, Communications": [
-      "Quantum Computing Research Act",
-      "Artificial Intelligence Ethics Act",
-      "Broadband Expansion Act",
-      "Digital Innovation and Competition Act",
-      "Space Exploration and Research Act",
-    ],
-  }
-
-  // Default titles if the policy area isn't in our map
-  const defaultTitles = [
-    "Comprehensive Reform Act",
-    "Modernization and Improvement Act",
-    "American Innovation Act",
-    "Future Development Act",
-    "Infrastructure Investment Act",
-  ]
-
-  const titleOptions = titles[policyArea as keyof typeof titles] || defaultTitles
-  const randomTitle = titleOptions[Math.floor(Math.random() * titleOptions.length)]
-
-  // Add year to make it unique
-  return `${randomTitle} of ${Math.random() > 0.5 ? 2024 : 2025}`
-}
-
-// Function to generate a random bill description
-function generateBillDescription(title: string, policyArea: string) {
-  const descriptions = {
-    "Agriculture and Food": [
-      "To improve agricultural research and innovation.",
-      "To promote sustainable farming practices and soil health.",
-      "To enhance food security and nutrition assistance programs.",
-      "To support rural agricultural development and family farms.",
-      "To modernize the agricultural workforce and improve labor conditions.",
-    ],
-    "Armed Forces and National Security": [
-      "To enhance military readiness and operational capabilities.",
-      "To improve healthcare services for veterans and military families.",
-      "To modernize defense infrastructure and facilities.",
-      "To invest in national security technologies and cybersecurity.",
-      "To provide support services for military families and veterans.",
-    ],
-    // Add more policy areas as needed
-    Health: [
-      "To improve access to affordable healthcare services.",
-      "To advance medical research and development of treatments.",
-      "To reduce prescription drug costs and increase transparency.",
-      "To enhance mental health services and support.",
-      "To strengthen public health emergency preparedness and response.",
-    ],
-    Energy: [
-      "To accelerate the transition to clean energy sources.",
-      "To increase investment in renewable energy technologies.",
-      "To modernize energy infrastructure and improve resilience.",
-      "To establish new energy efficiency standards and incentives.",
-      "To support innovation in nuclear energy and advanced technologies.",
-    ],
-  }
-
-  // Default descriptions if the policy area isn't in our map
-  const defaultDescriptions = [
-    "To implement comprehensive reforms and improvements.",
-    "To modernize systems and enhance operational efficiency.",
-    "To promote innovation and technological advancement.",
-    "To develop infrastructure and support future growth.",
-    "To establish new standards and regulatory frameworks.",
-  ]
-
-  const descriptionOptions = descriptions[policyArea as keyof typeof descriptions] || defaultDescriptions
-  return descriptionOptions[Math.floor(Math.random() * descriptionOptions.length)]
 }
 
 // Function to generate a random last action based on bill status
@@ -753,72 +1158,114 @@ function generateLastAction(status: string, chamber: "House" | "Senate") {
   return actionOptions[Math.floor(Math.random() * actionOptions.length)]
 }
 
-// Function to generate bills
+// Function to generate bills with consistent order and get the 10 most recent
 export function generateBills(type: "introduced" | "active" | "passed" | "enacted", count: number) {
+  // Create an array to hold our bills
   const bills = []
-  const statuses = {
-    introduced: "Introduced",
-    active: "Committee Consideration",
-    passed: ["Passed House", "Passed Senate", "Passed House and Senate"],
-    enacted: "Enacted",
+
+  // Get all available bill IDs from billTexts
+  const availableBillIds = Object.keys(billTexts)
+
+  // Filter bills based on type
+  // For this example, we'll use a simple pattern to determine bill type:
+  // - hr96xx and s51xx for introduced
+  // - hr94xx and s50xx for active
+  // - hr93xx and s52xx for passed
+  // - hr97xx and s53xx for enacted
+  let filteredBillIds: string[] = []
+
+  switch (type) {
+    case "introduced":
+      filteredBillIds = availableBillIds.filter((id) => id.startsWith("hr96") || id.startsWith("s51"))
+      break
+    case "active":
+      filteredBillIds = availableBillIds.filter((id) => id.startsWith("hr94") || id.startsWith("s50"))
+      break
+    case "passed":
+      filteredBillIds = availableBillIds.filter((id) => id.startsWith("hr93") || id.startsWith("s52"))
+      break
+    case "enacted":
+      filteredBillIds = availableBillIds.filter(
+        (id) => id.startsWith("hr97") || id.startsWith("s53") || id.startsWith("hr98"),
+      )
+      break
   }
 
-  for (let i = 0; i < count; i++) {
-    const chamber = Math.random() > 0.5 ? "House" : "Senate"
-    const sponsorParty = Math.random() > 0.7 ? "R" : Math.random() > 0.9 ? "I" : "D"
-    const policyArea = policyAreas[Math.floor(Math.random() * policyAreas.length)]
-    const billNumber = generateBillNumber(chamber, i)
-    const billTitle = generateBillTitle(policyArea)
+  // If we don't have enough bills of the specific type, add some from other types
+  if (filteredBillIds.length < count) {
+    const remainingBillIds = availableBillIds.filter((id) => !filteredBillIds.includes(id))
+    filteredBillIds = [...filteredBillIds, ...remainingBillIds.slice(0, count - filteredBillIds.length)]
+  }
 
-    // Get status based on type
+  // Take only the number of bills requested
+  filteredBillIds = filteredBillIds.slice(0, count)
+
+  // Generate bill data for each ID
+  for (const billId of filteredBillIds) {
+    const billText = billTexts[billId]
+    const billTitle = billText.trim().split("\n")[0].trim()
+
+    // Determine chamber based on bill ID
+    const chamber = billId.startsWith("hr") ? "House" : "Senate"
+
+    // Generate bill number from ID
+    const billNumber = billId.startsWith("hr") ? `H.R. ${billId.substring(2)}` : `S. ${billId.substring(1)}`
+
+    // Determine status based on type
     let status
     if (type === "passed") {
-      const passedStatuses = statuses[type] as string[]
-      status = passedStatuses[Math.floor(Math.random() * passedStatuses.length)]
+      status = chamber === "House" ? "Passed House" : "Passed Senate"
+      if (Number.parseInt(billId.substring(2)) % 5 === 0) status = "Passed House and Senate"
     } else {
-      status = statuses[type] as string
+      status = type === "introduced" ? "Introduced" : type === "active" ? "Committee Consideration" : "Enacted"
     }
 
-    // Generate committees based on status and chamber
-    let committeeCount = 1
-    if (status === "Passed House" || status === "Passed Senate") {
-      committeeCount = 2
-    } else if (status === "Passed House and Senate" || status === "Enacted") {
-      committeeCount = Math.floor(Math.random() * 2) + 2 // 2-3 committees
-    }
+    // Generate sponsor party
+    const sponsorParty =
+      Number.parseInt(billId.substring(2)) % 10 < 7 ? "D" : Number.parseInt(billId.substring(2)) % 10 === 7 ? "I" : "R"
 
+    // Generate committees
+    const committeeCount = 1 + (Number.parseInt(billId.substring(2)) % 3)
     const committees = generateCommittees(chamber, committeeCount)
 
-    // For passed bills that have gone to the other chamber, add committees from that chamber
-    if (
-      status === "Passed House" ||
-      status === "Passed Senate" ||
-      status === "Passed House and Senate" ||
-      status === "Enacted"
-    ) {
-      const otherChamber = chamber === "House" ? "Senate" : "House"
-      const otherCommittees = generateCommittees(otherChamber, 1)
-      committees.push(...otherCommittees)
-    }
+    // Generate date
+    const date = generateBillDate(type)
+
+    // Select sponsor
+    const sponsorList = chamber === "House" ? houseSponsors : senateSponsors
+    const sponsorIndex = Number.parseInt(billId.substring(2)) % sponsorList.length
+    const sponsor = sponsorList[sponsorIndex]
+
+    // Generate policy area
+    const policyAreaIndex = Number.parseInt(billId.substring(2)) % policyAreas.length
+    const policyArea = policyAreas[policyAreaIndex]
+
+    // Generate description and last action
+    const description = `To ${billTitle.toLowerCase().includes("act") ? "implement" : "establish"} comprehensive reforms and improvements in ${policyArea.toLowerCase()}.`
+    const lastAction = generateLastAction(status, chamber)
 
     bills.push({
-      id: generateBillId(chamber, i),
+      id: billId,
       number: billNumber,
       title: billTitle,
-      description: generateBillDescription(billTitle, policyArea),
-      date: generateRandomDate(),
-      sponsor:
-        chamber === "House"
-          ? houseSponsors[Math.floor(Math.random() * houseSponsors.length)]
-          : senateSponsors[Math.floor(Math.random() * senateSponsors.length)],
+      description: description,
+      date: date,
+      sponsor: sponsor,
       sponsorParty: sponsorParty,
       chamber: chamber,
       status: status,
-      lastAction: generateLastAction(status, chamber),
+      lastAction: lastAction,
       policyArea: policyArea,
       committees: committees,
     })
   }
+
+  // Sort bills by date (most recent first)
+  bills.sort((a, b) => {
+    const dateA = new Date(a.date)
+    const dateB = new Date(b.date)
+    return dateB.getTime() - dateA.getTime()
+  })
 
   return bills
 }

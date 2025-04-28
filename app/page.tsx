@@ -38,8 +38,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-medium mb-2">Track Recent Bills</h3>
               <p className="text-muted-foreground">
-                Stay informed about the latest bills and legislation in the House and Senate. Monitor progress through
-                the legislative process.
+                Stay informed about the latest bills and legislation in the House and Senate.
               </p>
             </div>
           </ScrollAnimation>

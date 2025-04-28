@@ -10,7 +10,6 @@ import { ScrollAnimation } from "@/components/scroll-animation"
 import { generateBills } from "@/lib/bill-data"
 import type { FilterOptions } from "@/components/bill-filters"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { billTexts } from "@/lib/bill-data"
 
 interface Bill {
   id: string
@@ -39,24 +38,24 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
   const [allBills, setAllBills] = useState<Bill[]>([])
   const [filteredBills, setFilteredBills] = useState<Bill[]>([])
   const [displayedBills, setDisplayedBills] = useState<Bill[]>([])
-  const [totalPages, setTotalPages] = useState(10)
+  const [totalPages, setTotalPages] = useState(1)
   const ITEMS_PER_PAGE = 5
 
   // Initialize bills on component mount
   useEffect(() => {
-    const bills = generateBills(type, 50) // Generate 50 bills for each category
+    // Generate exactly 10 bills for each category
+    const bills = generateBills(type, 10)
+    setAllBills(bills)
 
-    // Filter out bills that don't have data in billTexts
-    const billsWithData = bills.filter((bill) => billTexts[bill.id])
-
-    setAllBills(billsWithData)
+    // Calculate total pages based on actual number of bills
+    const calculatedTotalPages = Math.max(1, Math.ceil(bills.length / ITEMS_PER_PAGE))
+    setTotalPages(calculatedTotalPages)
   }, [type])
 
   // Update filtered bills
   useEffect(() => {
     // Since we've removed search and filters, we just use all bills
     setFilteredBills(allBills)
-    setTotalPages(Math.max(1, Math.ceil(allBills.length / ITEMS_PER_PAGE)))
   }, [allBills])
 
   // Update displayed bills based on current page
@@ -193,7 +192,7 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
                   <CardFooter className="border-t bg-muted/30 px-6 py-4">
                     <Button asChild className="w-full sm:w-auto">
                       <Link
-                        href={`/?bill=${bill.id}&title=${encodeURIComponent(bill.title)}`}
+                        href={`/?bill=${bill.id}&title=${encodeURIComponent(bill.title)}&autoExplain=true`}
                         className="flex items-center justify-center"
                       >
                         <ExternalLink className="h-4 w-4 mr-2" />
@@ -210,6 +209,12 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
             <p className="text-muted-foreground">No bills found with available data.</p>
           </div>
         )}
+      </div>
+
+      {/* Return the total pages so the parent component can update its state */}
+      <div className="hidden">
+        {/* This is a hack to pass the total pages back to the parent */}
+        <span id="total-pages-data" data-total-pages={totalPages}></span>
       </div>
     </>
   )

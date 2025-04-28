@@ -22,11 +22,21 @@ export function LegislationForm() {
   useEffect(() => {
     const billId = searchParams.get("bill")
     const billTitle = searchParams.get("title")
+    const autoExplain = searchParams.get("autoExplain") !== "false" // Default to true unless explicitly set to false
 
     if (billId) {
       if (billTexts[billId]) {
         // If bill exists in our database, use the full text
         setLegislation(billTexts[billId])
+
+        // Auto-trigger explanation if not disabled
+        if (autoExplain && !explanation) {
+          // Use setTimeout to ensure the legislation state is updated before submission
+          const timer = setTimeout(() => {
+            handleExplanationRequest(billTexts[billId])
+          }, 100)
+          return () => clearTimeout(timer)
+        }
       } else if (billTitle) {
         // If bill doesn't exist but we have the title, use the title for explanation
         const billNumber = billId.toUpperCase().startsWith("HR")
@@ -35,22 +45,36 @@ export function LegislationForm() {
             ? billId.toUpperCase()
             : `Bill ${billId.toUpperCase()}`
 
-        setLegislation(
-          `${billTitle} (${billNumber}): Please explain this legislation based on the official text from Congress.gov.`,
-        )
+        const titleRequest = `${billTitle} (${billNumber}): Please explain this legislation based on the official text from Congress.gov.`
+        setLegislation(titleRequest)
+
+        // Auto-trigger explanation if not disabled
+        if (autoExplain && !explanation) {
+          // Use setTimeout to ensure the legislation state is updated before submission
+          const timer = setTimeout(() => {
+            handleExplanationRequest(titleRequest)
+          }, 100)
+          return () => clearTimeout(timer)
+        }
       } else {
         // Fallback if we don't have title or text
-        setLegislation(
-          `Bill ${billId.toUpperCase()}: Please explain this legislation based on the official text from Congress.gov.`,
-        )
+        const fallbackRequest = `Bill ${billId.toUpperCase()}: Please explain this legislation based on the official text from Congress.gov.`
+        setLegislation(fallbackRequest)
+
+        // Auto-trigger explanation if not disabled
+        if (autoExplain && !explanation) {
+          // Use setTimeout to ensure the legislation state is updated before submission
+          const timer = setTimeout(() => {
+            handleExplanationRequest(fallbackRequest)
+          }, 100)
+          return () => clearTimeout(timer)
+        }
       }
     }
-  }, [searchParams])
+  }, [searchParams, explanation])
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!legislation.trim()) {
+  const handleExplanationRequest = async (text: string) => {
+    if (!text.trim()) {
       setError("Please enter some legislation text")
       return
     }
@@ -65,7 +89,7 @@ export function LegislationForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ legislation }),
+        body: JSON.stringify({ legislation: text }),
       })
 
       if (!response.ok) {
@@ -80,6 +104,11 @@ export function LegislationForm() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    await handleExplanationRequest(legislation)
   }
 
   return (

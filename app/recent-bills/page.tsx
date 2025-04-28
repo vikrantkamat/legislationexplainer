@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { BillsList } from "@/components/bills-list"
 import { CheckCircle, Clock, Filter } from "lucide-react"
 import { Pagination } from "@/components/pagination"
@@ -48,11 +48,20 @@ export default function RecentBillsPage() {
   })
   const [activeTab, setActiveTab] = useState("introduced")
   const [totalPages, setTotalPages] = useState({
-    introduced: 10,
-    active: 8,
-    passed: 5,
-    enacted: 3,
+    introduced: 1,
+    active: 1,
+    passed: 1,
+    enacted: 1,
   })
+
+  // Reference to track when bills are rendered
+  const billsRenderedRef = useRef({
+    introduced: false,
+    active: false,
+    passed: false,
+    enacted: false,
+  })
+
   // Keep empty filters for compatibility with BillsList component
   const emptyFilters = {
     policyAreas: [],
@@ -72,6 +81,34 @@ export default function RecentBillsPage() {
   const handleTabChange = (value: string) => {
     setActiveTab(value)
   }
+
+  // Effect to check for total pages data after rendering
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach(() => {
+        // Check for the hidden span with total pages data
+        const totalPagesElement = document.getElementById("total-pages-data")
+        if (totalPagesElement) {
+          const tabType = activeTab as "introduced" | "active" | "passed" | "enacted"
+          const newTotalPages = Number.parseInt(totalPagesElement.getAttribute("data-total-pages") || "1", 10)
+
+          if (!billsRenderedRef.current[tabType]) {
+            setTotalPages((prev) => ({
+              ...prev,
+              [tabType]: newTotalPages,
+            }))
+            billsRenderedRef.current[tabType] = true
+          }
+        }
+      })
+    })
+
+    observer.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [activeTab])
 
   return (
     <main className="container mx-auto px-4 py-8 max-w-5xl">
@@ -108,11 +145,13 @@ export default function RecentBillsPage() {
                 onPageChange={(page) => handlePageChange("introduced", page)}
                 filters={emptyFilters}
               />
-              <Pagination
-                totalPages={totalPages.introduced}
-                currentPage={currentPages.introduced}
-                onPageChange={(page) => handlePageChange("introduced", page)}
-              />
+              {totalPages.introduced > 1 && (
+                <Pagination
+                  totalPages={totalPages.introduced}
+                  currentPage={currentPages.introduced}
+                  onPageChange={(page) => handlePageChange("introduced", page)}
+                />
+              )}
             </SlidingTabsContent>
             <SlidingTabsContent value="active">
               <BillsList
@@ -122,11 +161,13 @@ export default function RecentBillsPage() {
                 onPageChange={(page) => handlePageChange("active", page)}
                 filters={emptyFilters}
               />
-              <Pagination
-                totalPages={totalPages.active}
-                currentPage={currentPages.active}
-                onPageChange={(page) => handlePageChange("active", page)}
-              />
+              {totalPages.active > 1 && (
+                <Pagination
+                  totalPages={totalPages.active}
+                  currentPage={currentPages.active}
+                  onPageChange={(page) => handlePageChange("active", page)}
+                />
+              )}
             </SlidingTabsContent>
             <SlidingTabsContent value="passed">
               <BillsList
@@ -136,11 +177,13 @@ export default function RecentBillsPage() {
                 onPageChange={(page) => handlePageChange("passed", page)}
                 filters={emptyFilters}
               />
-              <Pagination
-                totalPages={totalPages.passed}
-                currentPage={currentPages.passed}
-                onPageChange={(page) => handlePageChange("passed", page)}
-              />
+              {totalPages.passed > 1 && (
+                <Pagination
+                  totalPages={totalPages.passed}
+                  currentPage={currentPages.passed}
+                  onPageChange={(page) => handlePageChange("passed", page)}
+                />
+              )}
             </SlidingTabsContent>
             <SlidingTabsContent value="enacted">
               <BillsList
@@ -150,11 +193,13 @@ export default function RecentBillsPage() {
                 onPageChange={(page) => handlePageChange("enacted", page)}
                 filters={emptyFilters}
               />
-              <Pagination
-                totalPages={totalPages.enacted}
-                currentPage={currentPages.enacted}
-                onPageChange={(page) => handlePageChange("enacted", page)}
-              />
+              {totalPages.enacted > 1 && (
+                <Pagination
+                  totalPages={totalPages.enacted}
+                  currentPage={currentPages.enacted}
+                  onPageChange={(page) => handlePageChange("enacted", page)}
+                />
+              )}
             </SlidingTabsContent>
           </SlidingTabs>
         </ScrollAnimation>
