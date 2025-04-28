@@ -83,8 +83,8 @@ const config = {
         "fade-in": "fade-in 0.5s ease-out",
       },
       backgroundImage: {
-        "blue-gradient": "linear-gradient(to right, #3b82f6, #1e40af)",
-        "dark-blue-gradient": "linear-gradient(to right, #2563eb, #1e3a8a)",
+        "purple-gradient": "linear-gradient(to right, #8b5cf6, #6d28d9)",
+        "dark-purple-gradient": "linear-gradient(to right, #7c3aed, #4c1d95)",
       },
     },
   },

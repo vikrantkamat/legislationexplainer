@@ -116,7 +116,10 @@ export default function RecentBillsPage() {
         <ScrollAnimation>
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-gradient">Recent Bills</h1>
-            <p className="text-xl text-muted-foreground">Track the latest legislation in Congress</p>
+            <p className="text-xl text-muted-foreground">
+              Track the latest legislation in Congress{" "}
+              <span className="font-medium">(All bills from January 2024 and later)</span>
+            </p>
           </div>
         </ScrollAnimation>
 

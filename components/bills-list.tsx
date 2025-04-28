@@ -103,12 +103,53 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
     return Math.min(Math.round(probability), 100)
   }
 
+  // Helper function to get party name from party code
+  const getPartyName = (partyCode: string): string => {
+    switch (partyCode) {
+      case "D":
+        return "Democrat"
+      case "R":
+        return "Republican"
+      case "I":
+        return "Independent"
+      default:
+        return partyCode
+    }
+  }
+
+  // Helper function to determine if sponsor is from the specified party
+  const isSponsorFromParty = (sponsor: string, party: string): boolean => {
+    if (party === "D") {
+      return sponsor.includes("(D-")
+    } else if (party === "R") {
+      return sponsor.includes("(R-")
+    } else if (party === "I") {
+      return sponsor.includes("(I-")
+    }
+    return false
+  }
+
   return (
     <>
       <div className="grid gap-6 pt-4">
         {displayedBills.length > 0 ? (
           displayedBills.map((bill, index) => {
             const enactmentProbability = calculateProbability(bill)
+
+            // Ensure sponsor party matches the actual sponsor information
+            const actualParty = bill.sponsor.includes("(D-")
+              ? "D"
+              : bill.sponsor.includes("(R-")
+                ? "R"
+                : bill.sponsor.includes("(I-")
+                  ? "I"
+                  : bill.sponsorParty
+
+            // Use the actual party from the sponsor string
+            const correctedBill = {
+              ...bill,
+              sponsorParty: actualParty as "D" | "R" | "I",
+            }
 
             return (
               <ScrollAnimation key={bill.id} stagger={index % 3 === 0 ? 1 : index % 3 === 1 ? 2 : 3}>
@@ -117,11 +158,17 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <Badge variant={bill.chamber === "House" ? "blue" : "red"}>{bill.chamber}</Badge>
+                          <Badge variant={bill.chamber === "House" ? "slateGrey" : "burntOrange"}>{bill.chamber}</Badge>
                           <Badge
-                            variant={bill.sponsorParty === "D" ? "blue" : bill.sponsorParty === "R" ? "red" : "purple"}
+                            variant={
+                              correctedBill.sponsorParty === "D"
+                                ? "blue"
+                                : correctedBill.sponsorParty === "R"
+                                  ? "red"
+                                  : "green"
+                            }
                           >
-                            {bill.sponsorParty}
+                            {getPartyName(correctedBill.sponsorParty)}
                           </Badge>
                           <div className="flex items-center">
                             <span

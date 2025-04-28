@@ -1220,9 +1220,19 @@ export function generateBills(type: "introduced" | "active" | "passed" | "enacte
       status = type === "introduced" ? "Introduced" : type === "active" ? "Committee Consideration" : "Enacted"
     }
 
-    // Generate sponsor party
-    const sponsorParty =
-      Number.parseInt(billId.substring(2)) % 10 < 7 ? "D" : Number.parseInt(billId.substring(2)) % 10 === 7 ? "I" : "R"
+    // Select sponsor
+    const sponsorList = chamber === "House" ? houseSponsors : senateSponsors
+    const sponsorIndex = Number.parseInt(billId.substring(2)) % sponsorList.length
+    const sponsor = sponsorList[sponsorIndex]
+
+    // Extract party from sponsor string
+    const sponsorParty = sponsor.includes("(D-")
+      ? "D"
+      : sponsor.includes("(R-")
+        ? "R"
+        : sponsor.includes("(I-")
+          ? "I"
+          : "D" // Default to D if not found
 
     // Generate committees
     const committeeCount = 1 + (Number.parseInt(billId.substring(2)) % 3)
@@ -1230,11 +1240,6 @@ export function generateBills(type: "introduced" | "active" | "passed" | "enacte
 
     // Generate date
     const date = generateBillDate(type)
-
-    // Select sponsor
-    const sponsorList = chamber === "House" ? houseSponsors : senateSponsors
-    const sponsorIndex = Number.parseInt(billId.substring(2)) % sponsorList.length
-    const sponsor = sponsorList[sponsorIndex]
 
     // Generate policy area
     const policyAreaIndex = Number.parseInt(billId.substring(2)) % policyAreas.length
