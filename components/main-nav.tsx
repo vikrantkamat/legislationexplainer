@@ -23,8 +23,8 @@ export function MainNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex items-center text-sm font-medium transition-colors hover:text-primary",
-              pathname === item.href ? "text-primary" : "text-muted-foreground",
+              "flex items-center text-sm font-medium transition-colors text-white hover:text-white/80",
+              pathname === item.href ? "font-bold" : "",
             )}
           >
             <Icon className="mr-2 h-4 w-4" />
