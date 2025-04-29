@@ -1,9 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Puzzle } from "lucide-react"
 
 interface GameInstructionsProps {
   onStart: () => void
@@ -11,42 +9,29 @@ interface GameInstructionsProps {
 
 export function GameInstructions({ onStart }: GameInstructionsProps) {
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-      <Card className="max-w-2xl mx-auto">
-        <CardHeader className="text-center">
-          <div className="mx-auto bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-            <Puzzle className="h-6 w-6 text-primary" />
-          </div>
-          <CardTitle className="text-2xl">How to Play Law Links</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p>
-            Sort the 16 bills into 4 groups based on their major theme. You have a maximum of three errors before the
-            answers are revealed.
-          </p>
-
-          <div className="space-y-2">
-            <h3 className="font-medium">Game Rules:</h3>
-            <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-              <li>Click on tiles to select them</li>
-              <li>Select exactly 4 bills that belong to the same category</li>
-              <li>Click "Submit Group" when you've selected 4 bills</li>
-              <li>Correct groups will move to the "Completed Groups" section</li>
-              <li>Incorrect groups will count as an error</li>
-              <li>After 3 errors, the game ends and solutions are revealed</li>
-            </ul>
-          </div>
-
-          <p className="text-sm text-muted-foreground italic">
-            Tip: Some bills might seem to fit multiple categories, but there is always one best match!
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <Button size="lg" onClick={onStart}>
-            Start Game
-          </Button>
-        </CardFooter>
-      </Card>
-    </motion.div>
+    <Card className="w-full max-w-3xl mx-auto">
+      <CardHeader>
+        <CardTitle className="text-2xl text-center">How to Play Law Links</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <p>Law Links is a game where you need to identify groups of bills that belong to the same category.</p>
+        <ol className="list-decimal pl-5 space-y-2">
+          <li>You will see a grid of bills from different legislative categories.</li>
+          <li>Select 4 bills that you think belong to the same category.</li>
+          <li>Click "Submit" to check if your selection is correct.</li>
+          <li>If correct, the bills will be grouped together with their category name.</li>
+          <li>If incorrect, you'll lose one of your three allowed mistakes.</li>
+          <li>Your goal is to find all 4 categories before making 3 mistakes.</li>
+        </ol>
+        <p className="font-medium">
+          Good luck! Test your knowledge of legislative themes and see if you can identify all the connections.
+        </p>
+      </CardContent>
+      <CardFooter className="flex justify-center">
+        <Button size="lg" onClick={onStart}>
+          Start Game
+        </Button>
+      </CardFooter>
+    </Card>
   )
 }
