@@ -6,7 +6,34 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { User, Calendar, Tag, Building, AlertTriangle, TrendingUp } from "lucide-react"
 
 interface BillDetailsProps {
-  bill: any // Using any for simplicity, but should be properly typed
+  bill: {
+    id: string
+    number: string
+    title: string
+    currentPrice: number
+    priceChange: number
+    priceChangePercent: number
+    shares: number
+    totalValue: number
+    probability: number
+    chamber: "House" | "Senate"
+    sponsor: string
+    sponsorParty: "D" | "R" | "I"
+    sectors: string[]
+    ipoDate: string
+    committee?: string
+    summary?: string
+    bipartisanScore?: string
+    committeeOutlook?: string
+    leadershipPriority?: string
+    newsSentiment?: string
+    riskLevel?: "low" | "medium" | "high"
+    riskAssessment?: string
+    volatility?: number
+    volumeChange?: number
+    nextAction?: string
+    nextActionDate?: string
+  }
 }
 
 export function BillDetails({ bill }: BillDetailsProps) {
@@ -147,7 +174,7 @@ export function BillDetails({ bill }: BillDetailsProps) {
               </div>
               <div>
                 <p className="text-muted-foreground">Trading Volume</p>
-                <p className="font-medium">${(bill.currentPrice * bill.volumeChange).toLocaleString()}</p>
+                <p className="font-medium">${(bill.currentPrice * (bill.volumeChange || 0)).toLocaleString()}</p>
               </div>
               <div>
                 <p className="text-muted-foreground">Price Range (30d)</p>

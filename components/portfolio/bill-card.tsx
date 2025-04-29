@@ -95,9 +95,9 @@ export function BillCard({ bill }: BillCardProps) {
             <div className="text-xs font-medium">Value: ${bill.totalValue.toFixed(2)}</div>
           </div>
           <div className="flex gap-2">
-            <Dialog open={showDetails} onOpenChange={setShowDetails}>
+            <Dialog>
               <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="h-8 w-8 p-0">
+                <Button variant="outline" size="sm" className="h-8 w-8 p-0" onClick={() => setShowDetails(true)}>
                   <Info className="h-4 w-4" />
                   <span className="sr-only">Details</span>
                 </Button>

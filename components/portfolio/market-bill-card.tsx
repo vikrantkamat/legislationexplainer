@@ -12,56 +12,33 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { ArrowUpRight, ArrowDownRight, Info, AlertCircle, ShoppingCart, TrendingDown } from "lucide-react"
+import { ArrowUpRight, ArrowDownRight, Info, ShoppingCart } from "lucide-react"
 import { BillDetails } from "@/components/portfolio/bill-details"
-import { TradeForm } from "@/components/portfolio/trade-form"
-import { usePortfolio } from "@/hooks/use-portfolio"
 
-interface MarketBill {
+interface Bill {
   id: string
   number: string
   title: string
   currentPrice: number
   priceChange: number
   priceChangePercent: number
-  volumeChange: number
   probability: number
   chamber: "House" | "Senate"
   sponsor: string
   sponsorParty: "D" | "R" | "I"
   sectors: string[]
-  ipoDate: string
   nextAction?: string
   nextActionDate?: string
-  riskLevel: "low" | "medium" | "high"
-  volatility: number
 }
 
 interface MarketBillCardProps {
-  bill: MarketBill
+  bill: Bill
+  onBuyClick: (billId: string) => void
 }
 
-export function MarketBillCard({ bill }: MarketBillCardProps) {
+export function MarketBillCard({ bill, onBuyClick }: MarketBillCardProps) {
   const [showDetails, setShowDetails] = useState(false)
-  const [showTradeForm, setShowTradeForm] = useState(false)
-  const [tradeType, setTradeType] = useState<"buy" | "sell">("buy")
-  const { portfolio } = usePortfolio()
-
   const isPositiveChange = bill.priceChange >= 0
-
-  // Check if user owns this bill
-  const userOwns = portfolio?.holdings.some((holding) => holding.id === bill.id) || false
-  const userHolding = portfolio?.holdings.find((holding) => holding.id === bill.id)
-
-  const handleBuy = () => {
-    setTradeType("buy")
-    setShowTradeForm(true)
-  }
-
-  const handleSell = () => {
-    setTradeType("sell")
-    setShowTradeForm(true)
-  }
 
   return (
     <Card className="overflow-hidden">
@@ -98,14 +75,9 @@ export function MarketBillCard({ bill }: MarketBillCardProps) {
         </div>
 
         <div className="mt-3 pt-3 border-t flex justify-between items-center">
-          <div>
-            <div className="text-xs text-muted-foreground">
-              Volume: ${(bill.currentPrice * bill.volumeChange).toFixed(2)}
-            </div>
-            <div className="text-xs font-medium">IPO Date: {new Date(bill.ipoDate).toLocaleDateString()}</div>
-            {userOwns && userHolding && (
-              <div className="text-xs text-primary mt-1">You own {userHolding.shares} shares</div>
-            )}
+          <div className="text-xs">
+            <span className="text-muted-foreground">Sponsored by: </span>
+            <span>{bill.sponsor}</span>
           </div>
           <div className="flex gap-2">
             <Dialog open={showDetails} onOpenChange={setShowDetails}>
@@ -124,28 +96,10 @@ export function MarketBillCard({ bill }: MarketBillCardProps) {
               </DialogContent>
             </Dialog>
 
-            <Dialog open={showTradeForm} onOpenChange={setShowTradeForm}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="h-8" onClick={handleBuy}>
-                  <ShoppingCart className="h-4 w-4 mr-1" />
-                  Buy
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Trade {bill.number}</DialogTitle>
-                  <DialogDescription>Buy or sell shares of this bill</DialogDescription>
-                </DialogHeader>
-                <TradeForm bill={bill} initialTradeType={tradeType} onComplete={() => setShowTradeForm(false)} />
-              </DialogContent>
-            </Dialog>
-
-            {userOwns && (
-              <Button size="sm" variant="outline" className="h-8" onClick={handleSell}>
-                <TrendingDown className="h-4 w-4 mr-1" />
-                Sell
-              </Button>
-            )}
+            <Button size="sm" className="h-8" onClick={() => onBuyClick(bill.id)}>
+              <ShoppingCart className="h-4 w-4 mr-1" />
+              Buy
+            </Button>
           </div>
         </div>
 
@@ -162,26 +116,6 @@ export function MarketBillCard({ bill }: MarketBillCardProps) {
               }`}
               style={{ width: `${bill.probability}%` }}
             ></div>
-          </div>
-        </div>
-
-        {/* Risk indicator */}
-        <div className="mt-2 flex items-center justify-between">
-          <div className="flex items-center">
-            <AlertCircle
-              className={`h-3 w-3 mr-1 ${
-                bill.riskLevel === "high"
-                  ? "text-red-500"
-                  : bill.riskLevel === "medium"
-                    ? "text-amber-500"
-                    : "text-green-500"
-              }`}
-            />
-            <span className="text-xs capitalize">{bill.riskLevel} risk</span>
-          </div>
-          <div className="text-xs">
-            <span className="text-muted-foreground">Volatility: </span>
-            <span>{bill.volatility}%</span>
           </div>
         </div>
 

@@ -4,9 +4,9 @@ import { useState } from "react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { PortfolioDashboard } from "@/components/portfolio/portfolio-dashboard"
 import { BillMarket } from "@/components/portfolio/bill-market"
-import { Leaderboard } from "@/components/portfolio/leaderboard"
+import { Holdings } from "@/components/portfolio/holdings"
 import { ScrollAnimation } from "@/components/scroll-animation"
-import { LineChartIcon as ChartLineUp, BarChart3, Trophy, BookOpen } from "lucide-react"
+import { LineChartIcon as ChartLineUp, BarChart3, Briefcase, BookOpen } from "lucide-react"
 import { Toaster } from "@/components/ui/toaster"
 
 export default function BillPortfolioPage() {
@@ -32,18 +32,18 @@ export default function BillPortfolioPage() {
             <TabsList className="grid w-full grid-cols-4 mb-8">
               <TabsTrigger value="dashboard" className="flex items-center gap-2">
                 <ChartLineUp className="h-4 w-4" />
-                <span className="hidden sm:inline">Portfolio</span>
-                <span className="sm:hidden">Portfolio</span>
+                <span className="hidden sm:inline">Dashboard</span>
+                <span className="sm:hidden">Dashboard</span>
+              </TabsTrigger>
+              <TabsTrigger value="holdings" className="flex items-center gap-2">
+                <Briefcase className="h-4 w-4" />
+                <span className="hidden sm:inline">Holdings</span>
+                <span className="sm:hidden">Holdings</span>
               </TabsTrigger>
               <TabsTrigger value="market" className="flex items-center gap-2">
                 <BarChart3 className="h-4 w-4" />
                 <span className="hidden sm:inline">Market</span>
                 <span className="sm:hidden">Market</span>
-              </TabsTrigger>
-              <TabsTrigger value="leaderboard" className="flex items-center gap-2">
-                <Trophy className="h-4 w-4" />
-                <span className="hidden sm:inline">Leaderboard</span>
-                <span className="sm:hidden">Leaders</span>
               </TabsTrigger>
               <TabsTrigger value="learn" className="flex items-center gap-2">
                 <BookOpen className="h-4 w-4" />
@@ -56,12 +56,12 @@ export default function BillPortfolioPage() {
               <PortfolioDashboard />
             </TabsContent>
 
-            <TabsContent value="market" className="space-y-6">
-              <BillMarket />
+            <TabsContent value="holdings" className="space-y-6">
+              <Holdings />
             </TabsContent>
 
-            <TabsContent value="leaderboard" className="space-y-6">
-              <Leaderboard />
+            <TabsContent value="market" className="space-y-6">
+              <BillMarket />
             </TabsContent>
 
             <TabsContent value="learn" className="space-y-6">
