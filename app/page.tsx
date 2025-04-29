@@ -61,8 +61,8 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="group w-48 bg-gradient-to-r from-green-600 to-green-500 transition-all duration-300 
-                hover:shadow-lg hover:shadow-green-200/50 hover:scale-105 hover:brightness-110
+              className="group min-w-[180px] px-6 bg-gradient-to-r from-emerald-800 to-emerald-700 transition-all duration-300 
+                hover:shadow-lg hover:shadow-emerald-800/30 hover:scale-105 hover:brightness-110
                 active:scale-95 active:shadow-inner active:brightness-90 active:translate-y-0.5"
             >
               <Link href="/recent-bills">
@@ -81,8 +81,8 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="group w-48 bg-gradient-to-r from-green-500 to-green-400 transition-all duration-300 
-                hover:shadow-lg hover:shadow-green-200/50 hover:scale-105 hover:brightness-110
+              className="group min-w-[180px] px-6 bg-gradient-to-r from-emerald-700 to-emerald-600 transition-all duration-300 
+                hover:shadow-lg hover:shadow-emerald-700/30 hover:scale-105 hover:brightness-110
                 active:scale-95 active:shadow-inner active:brightness-90 active:translate-y-0.5"
             >
               <Link href="/bill-sort">
