@@ -48,7 +48,7 @@ export default function Home() {
               <div className="h-12 w-12 rounded-full bg-castleton bg-opacity-10 flex items-center justify-center mb-4 dark:bg-castleton dark:bg-opacity-20">
                 <Puzzle className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-lg font-medium mb-2">Play Bill Sort</h3>
+              <h3 className="text-lg font-medium mb-2">Play Law Links</h3>
               <p className="text-muted-foreground">
                 Test your knowledge by sorting bills into their correct categories in our interactive game
               </p>
@@ -58,16 +58,44 @@ export default function Home() {
 
         <ScrollAnimation>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="group">
+            <Button
+              asChild
+              size="lg"
+              className="group w-48 bg-gradient-to-r from-green-600 to-green-500 transition-all duration-300 
+                hover:shadow-lg hover:shadow-green-200/50 hover:scale-105 hover:brightness-110
+                active:scale-95 active:shadow-inner active:brightness-90 active:translate-y-0.5"
+            >
               <Link href="/recent-bills">
-                Explore recent bills
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <span className="relative overflow-hidden inline-block">
+                  <span className="relative z-10 transition-transform group-hover:-translate-y-1 group-active:translate-y-0">
+                    Explore recent bills
+                  </span>
+                </span>
+                <ArrowRight
+                  className="ml-2 h-4 w-4 transition-all duration-300 
+                  group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:scale-110
+                  group-active:translate-x-0.5 group-active:translate-y-0 group-active:scale-100"
+                />
               </Link>
             </Button>
-            <Button asChild size="lg" className="group">
+            <Button
+              asChild
+              size="lg"
+              className="group w-48 bg-gradient-to-r from-green-500 to-green-400 transition-all duration-300 
+                hover:shadow-lg hover:shadow-green-200/50 hover:scale-105 hover:brightness-110
+                active:scale-95 active:shadow-inner active:brightness-90 active:translate-y-0.5"
+            >
               <Link href="/bill-sort">
-                Play Law Links
-                <Puzzle className="ml-2 h-4 w-4" />
+                <span className="relative overflow-hidden inline-block">
+                  <span className="relative z-10 transition-transform group-hover:-translate-y-1 group-active:translate-y-0">
+                    Play Law Links
+                  </span>
+                </span>
+                <ArrowRight
+                  className="ml-2 h-4 w-4 transition-all duration-300 
+                  group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:scale-110
+                  group-active:translate-x-0.5 group-active:translate-y-0 group-active:scale-100"
+                />
               </Link>
             </Button>
           </div>
