@@ -8,7 +8,7 @@ export default function BillSortPage() {
       <div className="space-y-8">
         <ScrollAnimation>
           <div className="space-y-4 text-center">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-gradient">Bill Sort</h1>
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-gradient">Law Links</h1>
           </div>
         </ScrollAnimation>
 

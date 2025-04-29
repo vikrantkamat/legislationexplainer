@@ -17,7 +17,7 @@ export function GameInstructions({ onStart }: GameInstructionsProps) {
           <div className="mx-auto bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
             <Puzzle className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="text-2xl">How to Play Bill Sort</CardTitle>
+          <CardTitle className="text-2xl">How to Play Law Links</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p>

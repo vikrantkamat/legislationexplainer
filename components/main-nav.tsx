@@ -11,7 +11,7 @@ export function MainNav() {
   const navItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/recent-bills", label: "Recent Bills", icon: FileText },
-    { href: "/bill-sort", label: "Bill Sort", icon: Puzzle },
+    { href: "/bill-sort", label: "Law Links", icon: Puzzle },
     { href: "/about", label: "About Us", icon: Info },
   ]
 
