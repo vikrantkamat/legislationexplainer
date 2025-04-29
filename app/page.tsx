@@ -10,7 +10,7 @@ export default function Home() {
       <div className="space-y-8">
         <ScrollAnimation>
           <div className="space-y-4 text-center">
-            <div className="inline-block p-2 bg-blue-100 rounded-full dark:bg-blue-900/30">
+            <div className="inline-block p-2 bg-castleton bg-opacity-10 rounded-full dark:bg-castleton dark:bg-opacity-20">
               <BookOpen className="h-8 w-8 text-primary" />
             </div>
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-gradient">enacted.ai</h1>
@@ -23,7 +23,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <ScrollAnimation stagger={1}>
             <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm h-full">
-              <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 dark:bg-blue-900/30">
+              <div className="h-12 w-12 rounded-full bg-castleton bg-opacity-10 flex items-center justify-center mb-4 dark:bg-castleton dark:bg-opacity-20">
                 <Scale className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-lg font-medium mb-2">Understand Legislation</h3>
@@ -33,7 +33,7 @@ export default function Home() {
 
           <ScrollAnimation stagger={2}>
             <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm h-full">
-              <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 dark:bg-blue-900/30">
+              <div className="h-12 w-12 rounded-full bg-castleton bg-opacity-10 flex items-center justify-center mb-4 dark:bg-castleton dark:bg-opacity-20">
                 <FileText className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-lg font-medium mb-2">Track Recent Bills</h3>
@@ -45,7 +45,7 @@ export default function Home() {
 
           <ScrollAnimation stagger={3}>
             <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm h-full">
-              <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mb-4 dark:bg-blue-900/30">
+              <div className="h-12 w-12 rounded-full bg-castleton bg-opacity-10 flex items-center justify-center mb-4 dark:bg-castleton dark:bg-opacity-20">
                 <Lightbulb className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-lg font-medium mb-2">AI-Powered Insights</h3>

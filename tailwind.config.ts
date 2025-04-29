@@ -52,6 +52,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        castleton: "#0B6247",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -83,8 +84,8 @@ const config = {
         "fade-in": "fade-in 0.5s ease-out",
       },
       backgroundImage: {
-        "purple-gradient": "linear-gradient(to right, #8b5cf6, #6d28d9)",
-        "dark-purple-gradient": "linear-gradient(to right, #7c3aed, #4c1d95)",
+        "castleton-gradient": "linear-gradient(to right, #0B6247, #084935)",
+        "dark-castleton-gradient": "linear-gradient(to right, #0B6247, #063626)",
       },
     },
   },

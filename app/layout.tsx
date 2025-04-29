@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Github, Instagram } from "lucide-react"
 import Link from "next/link"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -67,6 +68,7 @@ export default function RootLayout({
               </div>
             </footer>
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

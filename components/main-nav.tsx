@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, FileText, Info } from "lucide-react"
+import { Home, FileText, Info, BarChart3 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -11,6 +11,7 @@ export function MainNav() {
   const navItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/recent-bills", label: "Recent Bills", icon: FileText },
+    { href: "/bill-portfolio", label: "Bill Portfolio", icon: BarChart3 },
     { href: "/about", label: "About Us", icon: Info },
   ]
 
