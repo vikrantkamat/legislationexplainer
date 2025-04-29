@@ -64,9 +64,9 @@ export default function Home() {
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="group">
+            <Button asChild size="lg" className="group">
               <Link href="/bill-sort">
-                Play Bill Sort
+                Play Law Links
                 <Puzzle className="ml-2 h-4 w-4" />
               </Link>
             </Button>
