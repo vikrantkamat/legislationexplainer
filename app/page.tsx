@@ -1,5 +1,5 @@
 import { LegislationExplainer } from "@/components/legislation-explainer"
-import { BookOpen, Scale, FileText, Lightbulb, ArrowRight } from "lucide-react"
+import { BookOpen, Scale, FileText, ArrowRight, Puzzle } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -46,22 +46,28 @@ export default function Home() {
           <ScrollAnimation stagger={3}>
             <div className="flex flex-col items-center text-center p-4 rounded-lg border bg-card shadow-sm h-full">
               <div className="h-12 w-12 rounded-full bg-castleton bg-opacity-10 flex items-center justify-center mb-4 dark:bg-castleton dark:bg-opacity-20">
-                <Lightbulb className="h-6 w-6 text-primary" />
+                <Puzzle className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-lg font-medium mb-2">AI-Powered Insights</h3>
+              <h3 className="text-lg font-medium mb-2">Play Bill Sort</h3>
               <p className="text-muted-foreground">
-                Leverage advanced AI to break down complex legal concepts into understandable language
+                Test your knowledge by sorting bills into their correct categories in our interactive game
               </p>
             </div>
           </ScrollAnimation>
         </div>
 
         <ScrollAnimation>
-          <div className="text-center mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="group">
               <Link href="/recent-bills">
-                Click here to explore recent bills
+                Explore recent bills
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="group">
+              <Link href="/bill-sort">
+                Play Bill Sort
+                <Puzzle className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
