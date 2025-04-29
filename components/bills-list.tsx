@@ -105,16 +105,8 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
 
   // Helper function to get party name from party code
   const getPartyName = (partyCode: string): string => {
-    switch (partyCode) {
-      case "D":
-        return "Democrat"
-      case "R":
-        return "Republican"
-      case "I":
-        return "Independent"
-      default:
-        return partyCode
-    }
+    // Just return the party code instead of the full name
+    return partyCode
   }
 
   // Helper function to determine if sponsor is from the specified party
