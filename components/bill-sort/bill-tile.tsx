@@ -16,7 +16,9 @@ export function BillTile({ bill, isSelected, onSelect }: BillTileProps) {
       whileTap={{ scale: 0.97 }}
       onClick={onSelect}
       className={`
-        p-3 rounded-md cursor-pointer transition-colors duration-200 flex items-center justify-center text-center
+        p-3 rounded-md cursor-pointer transition-colors duration-200
+        flex items-center justify-center text-center
+        h-24 w-full
         ${
           isSelected
             ? "bg-primary text-primary-foreground font-medium shadow-md"
@@ -30,6 +32,7 @@ export function BillTile({ bill, isSelected, onSelect }: BillTileProps) {
       <motion.span
         animate={{ scale: isSelected ? 1.05 : 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        className="line-clamp-2 text-sm sm:text-base overflow-hidden"
       >
         {bill.title}
       </motion.span>
