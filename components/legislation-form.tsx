@@ -3,12 +3,13 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2, FileText, BookOpen } from "lucide-react"
 import { ExplanationResult } from "@/components/explanation-result"
 import { billTexts } from "@/lib/bill-data"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function LegislationForm() {
   const [legislation, setLegislation] = useState("")
@@ -16,7 +17,6 @@ export function LegislationForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const searchParams = useSearchParams()
-  const router = useRouter()
   const explanationRef = useRef<HTMLDivElement>(null)
 
   // Handle bill parameter from URL
@@ -76,7 +76,7 @@ export function LegislationForm() {
 
   // Scroll to explanation when it's generated
   useEffect(() => {
-    if (explanation && explanationRef.current) {
+    if ((explanation || isLoading) && explanationRef.current) {
       // Small delay to ensure the DOM is fully updated
       setTimeout(() => {
         // Scroll the explanation header to the top of the viewport
@@ -88,7 +88,7 @@ export function LegislationForm() {
         window.history.replaceState({}, "", url.toString())
       }, 100)
     }
-  }, [explanation])
+  }, [explanation, isLoading])
 
   const handleExplanationRequest = async (text: string) => {
     if (!text.trim()) {
@@ -128,6 +128,37 @@ export function LegislationForm() {
     await handleExplanationRequest(legislation)
   }
 
+  // Loading skeleton for the explanation area
+  const LoadingSkeleton = () => (
+    <Card className="mt-6 border-primary/20 shadow-md overflow-hidden animate-pulse">
+      <CardHeader className="bg-primary/5 border-b border-primary/10">
+        <CardTitle className="flex items-center text-xl">
+          <FileText className="h-5 w-5 mr-2 text-primary" />
+          <div className="flex items-center">
+            <span>Generating Explanation</span>
+            <span className="ml-2 inline-flex">
+              <span className="animate-bounce">.</span>
+              <span className="animate-bounce delay-100">.</span>
+              <span className="animate-bounce delay-200">.</span>
+            </span>
+          </div>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="pt-6">
+        <div className="space-y-4">
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+
   return (
     <div className="space-y-6">
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -164,11 +195,9 @@ export function LegislationForm() {
         </Button>
       </form>
 
-      {explanation && (
-        <div id="explanation" ref={explanationRef} className="scroll-mt-16">
-          <ExplanationResult explanation={explanation} />
-        </div>
-      )}
+      <div id="explanation" ref={explanationRef} className="scroll-mt-16">
+        {isLoading ? <LoadingSkeleton /> : explanation ? <ExplanationResult explanation={explanation} /> : null}
+      </div>
     </div>
   )
 }
