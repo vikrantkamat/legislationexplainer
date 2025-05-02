@@ -12,20 +12,27 @@ interface BillTileProps {
 export function BillTile({ bill, isSelected, onSelect }: BillTileProps) {
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
       onClick={onSelect}
       className={`
-        p-3 rounded-md cursor-pointer flex items-center justify-center text-center
-        transition-colors duration-200 h-20 sm:h-24
-        ${isSelected ? "bg-primary/20 border-2 border-primary" : "bg-card hover:bg-primary/10 border border-border"}
+        p-3 rounded-md cursor-pointer transition-colors duration-200 flex items-center justify-center text-center
+        ${
+          isSelected
+            ? "bg-primary text-primary-foreground font-medium shadow-md"
+            : "bg-card hover:bg-accent border border-border"
+        }
       `}
+      style={{
+        boxShadow: isSelected ? "0 4px 12px rgba(0, 0, 0, 0.1)" : "none",
+      }}
     >
-      <span className="font-medium text-sm sm:text-base">{bill.title}</span>
+      <motion.span
+        animate={{ scale: isSelected ? 1.05 : 1 }}
+        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+      >
+        {bill.title}
+      </motion.span>
     </motion.div>
   )
 }
