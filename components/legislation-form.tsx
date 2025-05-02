@@ -2,13 +2,12 @@
 
 import type React from "react"
 
-import { useState } from "react"
-import { useSearchParams } from "next/navigation"
+import { useState, useRef, useEffect } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2, FileText, BookOpen } from "lucide-react"
 import { ExplanationResult } from "@/components/explanation-result"
-import { useEffect } from "react"
 import { billTexts } from "@/lib/bill-data"
 
 export function LegislationForm() {
@@ -17,6 +16,8 @@ export function LegislationForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const explanationRef = useRef<HTMLDivElement>(null)
 
   // Handle bill parameter from URL
   useEffect(() => {
@@ -72,6 +73,22 @@ export function LegislationForm() {
       }
     }
   }, [searchParams, explanation])
+
+  // Scroll to explanation when it's generated
+  useEffect(() => {
+    if (explanation && explanationRef.current) {
+      // Small delay to ensure the DOM is fully updated
+      setTimeout(() => {
+        // Scroll the explanation header to the top of the viewport
+        explanationRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+
+        // Update URL with the explanation hash without triggering a navigation
+        const url = new URL(window.location.href)
+        url.hash = "explanation"
+        window.history.replaceState({}, "", url.toString())
+      }, 100)
+    }
+  }, [explanation])
 
   const handleExplanationRequest = async (text: string) => {
     if (!text.trim()) {
@@ -148,7 +165,7 @@ export function LegislationForm() {
       </form>
 
       {explanation && (
-        <div id="explanation">
+        <div id="explanation" ref={explanationRef} className="scroll-mt-16">
           <ExplanationResult explanation={explanation} />
         </div>
       )}
