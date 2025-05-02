@@ -147,7 +147,11 @@ export function LegislationForm() {
         </Button>
       </form>
 
-      {explanation && <ExplanationResult explanation={explanation} />}
+      {explanation && (
+        <div id="explanation">
+          <ExplanationResult explanation={explanation} />
+        </div>
+      )}
     </div>
   )
 }
