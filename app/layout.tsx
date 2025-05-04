@@ -1,26 +1,32 @@
 import type React from "react"
-import "@/app/globals.css"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
-import { SiteHeader } from "@/components/site-header"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Github, Instagram } from "lucide-react"
+import { Instagram, Linkedin } from "lucide-react"
 import Link from "next/link"
+
+import { ThemeProvider } from "@/components/theme-provider"
+import { SiteHeader } from "@/components/site-header"
 import { Toaster } from "@/components/ui/toaster"
+
+import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "enacted.ai",
-  description: "Get clear, concise explanations of any legislation in seconds",
+  title: "enacted.ai - Legislation Explainer",
+  description: "AI-powered legislation explainer",
   icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.png", type: "image/svg+xml" },
-    ],
+    icon: "/favicon.ico",
     apple: "/apple-icon.png",
   },
     generator: 'v0.dev'
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "#212121" },
+  ],
 }
 
 export default function RootLayout({
@@ -30,13 +36,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.png" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-icon.png" />
-      </head>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
             <div className="flex-1">{children}</div>
@@ -47,13 +48,13 @@ export default function RootLayout({
                 </p>
                 <div className="flex items-center space-x-4">
                   <Link
-                    href="https://github.com/vikrantkamat"
+                    href="https://www.linkedin.com/in/vikrant-kamat"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    <Github className="h-5 w-5" />
-                    <span className="sr-only">GitHub</span>
+                    <Linkedin className="h-5 w-5" />
+                    <span className="sr-only">LinkedIn</span>
                   </Link>
                   <Link
                     href="https://www.instagram.com/vikrantkamat/"
