@@ -3,7 +3,6 @@ import { BookOpen, Scale, FileText, ArrowRight, Puzzle } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { ContactButton } from "@/components/contact-button"
 
 export default function Home() {
   return (
@@ -115,7 +114,6 @@ export default function Home() {
             </div>
           </div>
         </ScrollAnimation>
-        <ContactButton />
       </div>
     </main>
   )
