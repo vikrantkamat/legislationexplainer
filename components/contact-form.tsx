@@ -9,8 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Loader2 } from "lucide-react"
-import emailjs from "@emailjs/browser"
+import { Loader2, CheckCircle } from "lucide-react"
 
 // Form validation schema
 const formSchema = z.object({
@@ -23,6 +22,7 @@ type FormValues = z.infer<typeof formSchema>
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
   const { toast } = useToast()
 
   // Initialize form
@@ -39,41 +39,57 @@ export function ContactForm() {
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true)
 
+    // Simulate processing for a more realistic experience
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+
     try {
-      // Initialize EmailJS with your service ID, template ID, and public key
-      // You'll need to sign up for EmailJS and create these
-      const templateParams = {
-        to_email: "vikkamat3@gmail.com",
-        from_email: data.email,
-        subject: data.subject,
-        message: data.message,
-      }
+      // Create mailto URL
+      const mailtoUrl = `mailto:vikkamat3@gmail.com?subject=${encodeURIComponent(
+        `[Legislation Explainer] ${data.subject}`,
+      )}&body=${encodeURIComponent(`From: ${data.email}\n\n${data.message}`)}`
 
-      await emailjs.send(
-        "YOUR_SERVICE_ID", // Replace with your EmailJS service ID
-        "YOUR_TEMPLATE_ID", // Replace with your EmailJS template ID
-        templateParams,
-        "YOUR_PUBLIC_KEY", // Replace with your EmailJS public key
-      )
+      // Show success state first
+      setShowSuccess(true)
 
-      toast({
-        title: "Message sent!",
-        description: "We'll get back to you as soon as possible.",
-        variant: "default",
-      })
+      // Wait a moment to show success state before opening email client
+      setTimeout(() => {
+        // Open email client
+        window.location.href = mailtoUrl
 
-      // Reset form
-      form.reset()
+        // Reset form after a delay
+        setTimeout(() => {
+          form.reset()
+          setShowSuccess(false)
+        }, 2000)
+      }, 1000)
     } catch (error) {
-      console.error("Error sending email:", error)
+      console.error("Error opening email client:", error)
       toast({
         title: "Something went wrong",
-        description: "Your message could not be sent. Please try again later.",
+        description: "Please try again or contact us directly at vikkamat3@gmail.com",
         variant: "destructive",
       })
+      setShowSuccess(false)
     } finally {
-      setIsSubmitting(false)
+      setTimeout(() => {
+        setIsSubmitting(false)
+      }, 1000)
     }
+  }
+
+  if (showSuccess) {
+    return (
+      <div className="flex flex-col items-center justify-center p-6 text-center space-y-4">
+        <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+          <CheckCircle className="h-6 w-6 text-green-600" />
+        </div>
+        <h3 className="text-lg font-medium">Message Sent!</h3>
+        <p className="text-muted-foreground">Your email client will open momentarily to complete the process.</p>
+        <p className="text-sm text-muted-foreground">
+          If it doesn't open automatically, please check your browser settings.
+        </p>
+      </div>
+    )
   }
 
   return (

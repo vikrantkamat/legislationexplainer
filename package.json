@@ -61,8 +61,7 @@
     "@emotion/is-prop-valid": "latest",
     "@ai-sdk/groq": "latest",
     "ai": "latest",
-    "framer-motion": "latest",
-    "@emailjs/browser": "latest"
+    "framer-motion": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
