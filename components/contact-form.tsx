@@ -39,41 +39,45 @@ export function ContactForm() {
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true)
 
-    // Simulate processing for a more realistic experience
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
     try {
-      // Create mailto URL
-      const mailtoUrl = `mailto:vikkamat3@gmail.com?subject=${encodeURIComponent(
-        `[Legislation Explainer] ${data.subject}`,
-      )}&body=${encodeURIComponent(`From: ${data.email}\n\n${data.message}`)}`
+      // Using FormSubmit service to send the email directly
+      const response = await fetch("https://formsubmit.co/ajax/vikkamat3@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: "Legislation Explainer User",
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+          _subject: `[Legislation Explainer] ${data.subject}`,
+        }),
+      })
 
-      // Show success state first
-      setShowSuccess(true)
+      const result = await response.json()
 
-      // Wait a moment to show success state before opening email client
-      setTimeout(() => {
-        // Open email client
-        window.location.href = mailtoUrl
+      if (response.ok && result.success === "true") {
+        setShowSuccess(true)
+        form.reset()
 
-        // Reset form after a delay
+        // Reset success state after 5 seconds
         setTimeout(() => {
-          form.reset()
           setShowSuccess(false)
-        }, 2000)
-      }, 1000)
+        }, 5000)
+      } else {
+        throw new Error(result.message || "Failed to send message")
+      }
     } catch (error) {
-      console.error("Error opening email client:", error)
+      console.error("Error sending email:", error)
       toast({
         title: "Something went wrong",
-        description: "Please try again or contact us directly at vikkamat3@gmail.com",
+        description: "Your message could not be sent. Please try again later.",
         variant: "destructive",
       })
-      setShowSuccess(false)
     } finally {
-      setTimeout(() => {
-        setIsSubmitting(false)
-      }, 1000)
+      setIsSubmitting(false)
     }
   }
 
@@ -84,10 +88,10 @@ export function ContactForm() {
           <CheckCircle className="h-6 w-6 text-green-600" />
         </div>
         <h3 className="text-lg font-medium">Message Sent!</h3>
-        <p className="text-muted-foreground">Your email client will open momentarily to complete the process.</p>
-        <p className="text-sm text-muted-foreground">
-          If it doesn't open automatically, please check your browser settings.
-        </p>
+        <p className="text-muted-foreground">Thank you for reaching out. We'll get back to you as soon as possible.</p>
+        <Button variant="outline" onClick={() => setShowSuccess(false)} className="mt-2">
+          Send Another Message
+        </Button>
       </div>
     )
   }
