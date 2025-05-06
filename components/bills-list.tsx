@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import { Calendar, User, ExternalLink, Building, Tag, HelpCircle } from "lucide-react"
+import { Calendar, User, ExternalLink, Building, Tag, HelpCircle, AlertCircle } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animation"
-import { generateBills } from "@/lib/bill-data"
 import type { FilterOptions } from "@/components/bill-filters"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface Bill {
   id: string
@@ -35,35 +35,38 @@ interface BillsListProps {
 }
 
 export function BillsList({ type, searchTerm = "", currentPage, onPageChange, filters }: BillsListProps) {
-  const [allBills, setAllBills] = useState<Bill[]>([])
-  const [filteredBills, setFilteredBills] = useState<Bill[]>([])
-  const [displayedBills, setDisplayedBills] = useState<Bill[]>([])
+  const [bills, setBills] = useState<Bill[]>([])
   const [totalPages, setTotalPages] = useState(1)
-  const ITEMS_PER_PAGE = 5
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  // Initialize bills on component mount
+  // Fetch bills from our API
   useEffect(() => {
-    // Generate exactly 10 bills for each category
-    const bills = generateBills(type, 10)
-    setAllBills(bills)
+    async function fetchBills() {
+      setIsLoading(true)
+      setError(null)
 
-    // Calculate total pages based on actual number of bills
-    const calculatedTotalPages = Math.max(1, Math.ceil(bills.length / ITEMS_PER_PAGE))
-    setTotalPages(calculatedTotalPages)
-  }, [type])
+      try {
+        const response = await fetch(`/api/bills?status=${type}&page=${currentPage}&limit=5`)
 
-  // Update filtered bills
-  useEffect(() => {
-    // Since we've removed search and filters, we just use all bills
-    setFilteredBills(allBills)
-  }, [allBills])
+        if (!response.ok) {
+          throw new Error(`Error fetching bills: ${response.statusText}`)
+        }
 
-  // Update displayed bills based on current page
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-    const endIndex = startIndex + ITEMS_PER_PAGE
-    setDisplayedBills(filteredBills.slice(startIndex, endIndex))
-  }, [filteredBills, currentPage])
+        const data = await response.json()
+        setBills(data.bills)
+        setTotalPages(data.pagination.totalPages)
+      } catch (err) {
+        console.error("Failed to fetch bills:", err)
+        setError("Failed to load bills. Please try again later.")
+        // Use fallback data from lib/bill-data.ts if needed
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchBills()
+  }, [type, currentPage])
 
   // Calculate probability of enactment based on bill status and other factors
   const calculateProbability = (bill: Bill): number => {
@@ -109,39 +112,63 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
     return partyCode
   }
 
-  // Helper function to determine if sponsor is from the specified party
-  const isSponsorFromParty = (sponsor: string, party: string): boolean => {
-    if (party === "D") {
-      return sponsor.includes("(D-")
-    } else if (party === "R") {
-      return sponsor.includes("(R-")
-    } else if (party === "I") {
-      return sponsor.includes("(I-")
-    }
-    return false
+  // Loading skeleton
+  if (isLoading) {
+    return (
+      <div className="grid gap-6 pt-4">
+        {[...Array(5)].map((_, index) => (
+          <Card key={index} className="overflow-hidden">
+            <CardHeader className="bg-muted/50 border-b">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <Skeleton className="h-5 w-16" />
+                    <Skeleton className="h-5 w-8" />
+                    <Skeleton className="h-5 w-32" />
+                  </div>
+                  <Skeleton className="h-7 w-3/4 mb-2" />
+                  <Skeleton className="h-5 w-full" />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-4">
+              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-4 w-40" />
+                <Skeleton className="h-4 w-36" />
+              </div>
+              <div className="bg-muted/30 p-3 rounded-md">
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full" />
+              </div>
+            </CardContent>
+            <CardFooter className="border-t bg-muted/30 px-6 py-4">
+              <Skeleton className="h-9 w-40" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
+        <h3 className="text-xl font-semibold mb-2">Unable to Load Bills</h3>
+        <p className="text-muted-foreground mb-6">{error}</p>
+        <Button onClick={() => window.location.reload()}>Try Again</Button>
+      </div>
+    )
   }
 
   return (
     <>
       <div className="grid gap-6 pt-4">
-        {displayedBills.length > 0 ? (
-          displayedBills.map((bill, index) => {
+        {bills.length > 0 ? (
+          bills.map((bill, index) => {
             const enactmentProbability = calculateProbability(bill)
-
-            // Ensure sponsor party matches the actual sponsor information
-            const actualParty = bill.sponsor.includes("(D-")
-              ? "D"
-              : bill.sponsor.includes("(R-")
-                ? "R"
-                : bill.sponsor.includes("(I-")
-                  ? "I"
-                  : bill.sponsorParty
-
-            // Use the actual party from the sponsor string
-            const correctedBill = {
-              ...bill,
-              sponsorParty: actualParty as "D" | "R" | "I",
-            }
 
             return (
               <ScrollAnimation key={bill.id} stagger={index % 3 === 0 ? 1 : index % 3 === 1 ? 2 : 3}>
@@ -152,15 +179,9 @@ export function BillsList({ type, searchTerm = "", currentPage, onPageChange, fi
                         <div className="flex items-center gap-2 mb-1">
                           <Badge variant={bill.chamber === "House" ? "slateGrey" : "burntOrange"}>{bill.chamber}</Badge>
                           <Badge
-                            variant={
-                              correctedBill.sponsorParty === "D"
-                                ? "blue"
-                                : correctedBill.sponsorParty === "R"
-                                  ? "red"
-                                  : "green"
-                            }
+                            variant={bill.sponsorParty === "D" ? "blue" : bill.sponsorParty === "R" ? "red" : "green"}
                           >
-                            {getPartyName(correctedBill.sponsorParty)}
+                            {getPartyName(bill.sponsorParty)}
                           </Badge>
                           <div className="flex items-center">
                             <span

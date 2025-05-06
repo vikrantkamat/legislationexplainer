@@ -14,6 +14,7 @@ import {
   SlidingTabsContent,
   SlidingTabsIndicator,
 } from "@/components/sliding-tabs"
+import { Skeleton } from "@/components/ui/skeleton"
 
 // Custom Gavel icon component
 function GavelIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -53,6 +54,7 @@ export default function RecentBillsPage() {
     passed: 1,
     enacted: 1,
   })
+  const [isLoading, setIsLoading] = useState(true)
 
   // Reference to track when bills are rendered
   const billsRenderedRef = useRef({
@@ -84,6 +86,7 @@ export default function RecentBillsPage() {
 
   // Effect to check for total pages data after rendering
   useEffect(() => {
+    setIsLoading(true)
     const observer = new MutationObserver((mutations) => {
       mutations.forEach(() => {
         // Check for the hidden span with total pages data
@@ -98,6 +101,7 @@ export default function RecentBillsPage() {
               [tabType]: newTotalPages,
             }))
             billsRenderedRef.current[tabType] = true
+            setIsLoading(false)
           }
         }
       })
@@ -141,13 +145,21 @@ export default function RecentBillsPage() {
               </SlidingTabsTrigger>
             </SlidingTabsList>
             <SlidingTabsContent value="introduced">
-              <BillsList
-                type="introduced"
-                searchTerm=""
-                currentPage={currentPages.introduced}
-                onPageChange={(page) => handlePageChange("introduced", page)}
-                filters={emptyFilters}
-              />
+              {isLoading && (
+                <div className="space-y-4">
+                  <Skeleton className="h-12 w-full" />
+                  <Skeleton className="h-64 w-full" />
+                </div>
+              )}
+              {!isLoading && (
+                <BillsList
+                  type="introduced"
+                  searchTerm=""
+                  currentPage={currentPages.introduced}
+                  onPageChange={(page) => handlePageChange("introduced", page)}
+                  filters={emptyFilters}
+                />
+              )}
               {totalPages.introduced > 1 && (
                 <Pagination
                   totalPages={totalPages.introduced}
@@ -157,13 +169,21 @@ export default function RecentBillsPage() {
               )}
             </SlidingTabsContent>
             <SlidingTabsContent value="active">
-              <BillsList
-                type="active"
-                searchTerm=""
-                currentPage={currentPages.active}
-                onPageChange={(page) => handlePageChange("active", page)}
-                filters={emptyFilters}
-              />
+              {isLoading && (
+                <div className="space-y-4">
+                  <Skeleton className="h-12 w-full" />
+                  <Skeleton className="h-64 w-full" />
+                </div>
+              )}
+              {!isLoading && (
+                <BillsList
+                  type="active"
+                  searchTerm=""
+                  currentPage={currentPages.active}
+                  onPageChange={(page) => handlePageChange("active", page)}
+                  filters={emptyFilters}
+                />
+              )}
               {totalPages.active > 1 && (
                 <Pagination
                   totalPages={totalPages.active}
@@ -173,13 +193,21 @@ export default function RecentBillsPage() {
               )}
             </SlidingTabsContent>
             <SlidingTabsContent value="passed">
-              <BillsList
-                type="passed"
-                searchTerm=""
-                currentPage={currentPages.passed}
-                onPageChange={(page) => handlePageChange("passed", page)}
-                filters={emptyFilters}
-              />
+              {isLoading && (
+                <div className="space-y-4">
+                  <Skeleton className="h-12 w-full" />
+                  <Skeleton className="h-64 w-full" />
+                </div>
+              )}
+              {!isLoading && (
+                <BillsList
+                  type="passed"
+                  searchTerm=""
+                  currentPage={currentPages.passed}
+                  onPageChange={(page) => handlePageChange("passed", page)}
+                  filters={emptyFilters}
+                />
+              )}
               {totalPages.passed > 1 && (
                 <Pagination
                   totalPages={totalPages.passed}
@@ -189,13 +217,21 @@ export default function RecentBillsPage() {
               )}
             </SlidingTabsContent>
             <SlidingTabsContent value="enacted">
-              <BillsList
-                type="enacted"
-                searchTerm=""
-                currentPage={currentPages.enacted}
-                onPageChange={(page) => handlePageChange("enacted", page)}
-                filters={emptyFilters}
-              />
+              {isLoading && (
+                <div className="space-y-4">
+                  <Skeleton className="h-12 w-full" />
+                  <Skeleton className="h-64 w-full" />
+                </div>
+              )}
+              {!isLoading && (
+                <BillsList
+                  type="enacted"
+                  searchTerm=""
+                  currentPage={currentPages.enacted}
+                  onPageChange={(page) => handlePageChange("enacted", page)}
+                  filters={emptyFilters}
+                />
+              )}
               {totalPages.enacted > 1 && (
                 <Pagination
                   totalPages={totalPages.enacted}
