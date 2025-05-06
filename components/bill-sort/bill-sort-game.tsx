@@ -325,9 +325,26 @@ export function BillSortGame() {
         setHintMessage(null)
       }, 4000)
 
-      // Don't count this as an error, but clear the selection
+      // Count this as an error now
       setShake(true)
       setTimeout(() => setShake(false), 500)
+
+      // Increment error count
+      setErrors((prev) => {
+        const newErrors = prev + 1
+        if (newErrors >= 3) {
+          // Game over after 3 errors - auto-complete remaining categories with delay
+          setTimeout(() => {
+            setGameOver(true)
+            setTimeout(() => {
+              autoCompleteCategories()
+            }, 500)
+          }, 800)
+        }
+        return newErrors
+      })
+
+      // Clear selection
       setSelectedBills([])
     } else {
       // Incorrect group

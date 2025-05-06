@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Loader2, FileText, BookOpen } from "lucide-react"
+import { Loader2, FileText, BookOpen, X } from "lucide-react"
 import { ExplanationResult } from "@/components/explanation-result"
 import { billTexts } from "@/lib/bill-data"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -128,6 +128,16 @@ export function LegislationForm() {
     await handleExplanationRequest(legislation)
   }
 
+  const handleClearAll = () => {
+    setLegislation("")
+    setExplanation("")
+    setError("")
+    // Remove the explanation hash from URL
+    const url = new URL(window.location.href)
+    url.hash = ""
+    window.history.replaceState({}, "", url.toString())
+  }
+
   // Loading skeleton for the explanation area
   const LoadingSkeleton = () => (
     <Card className="mt-6 border-primary/20 shadow-md overflow-hidden animate-pulse">
@@ -180,19 +190,31 @@ export function LegislationForm() {
           />
         </div>
         {error && <p className="text-sm text-red-500">{error}</p>}
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Analyzing Legislation...
-            </>
-          ) : (
-            <>
-              <BookOpen className="mr-2 h-4 w-4" />
-              Get Factual Explanation
-            </>
-          )}
-        </Button>
+        <div className="flex gap-2">
+          <Button type="submit" className="flex-1" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Analyzing Legislation...
+              </>
+            ) : (
+              <>
+                <BookOpen className="mr-2 h-4 w-4" />
+                Get Factual Explanation
+              </>
+            )}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="flex-none"
+            onClick={handleClearAll}
+            disabled={isLoading || (!legislation && !explanation && !error)}
+          >
+            <X className="mr-2 h-4 w-4" />
+            Clear All
+          </Button>
+        </div>
       </form>
 
       <div id="explanation" ref={explanationRef} className="scroll-mt-16">
